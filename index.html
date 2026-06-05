@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0A1628">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BSL Auditoria">
+<title>BSL Saúde — Sistema de Auditoria</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap');
+:root{
+  --bg:#F4F6FA;--bg2:#EAEEF5;--surface:#FFFFFF;--surface2:#F8FAFD;
+  --border:#DDE3EE;--border2:#C8D0E0;
+  --text:#0D1B2A;--text2:#4A5568;--text3:#8A97AA;
+  --primary:#1B3F72;--primary-light:#2E5FA3;--primary-glow:rgba(27,63,114,0.12);
+  --accent:#0EA5E9;--accent2:#38BDF8;
+  --green:#16A34A;--green-bg:#F0FDF4;--green-border:#BBF7D0;
+  --red:#DC2626;--red-bg:#FEF2F2;--red-border:#FECACA;
+  --yellow:#D97706;--yellow-bg:#FFFBEB;--yellow-border:#FDE68A;
+  --orange:#EA580C;--orange-bg:#FFF7ED;--orange-border:#FED7AA;
+  --shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 16px rgba(0,0,0,0.05);
+  --shadow-lg:0 4px 24px rgba(0,0,0,0.1),0 1px 4px rgba(0,0,0,0.06);
+  --radius:12px;--radius-sm:8px;--radius-lg:16px;
+  --font:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace;
+}
+.dark{
+  --bg:#0A1628;--bg2:#0F1F3D;--surface:#142036;--surface2:#1A2A4A;
+  --border:#1E3460;--border2:#2A4A7F;
+  --text:#E8EEF8;--text2:#9BB0CC;--text3:#5A7599;
+  --primary:#3B82F6;--primary-light:#60A5FA;--primary-glow:rgba(59,130,246,0.15);
+  --shadow:0 1px 3px rgba(0,0,0,0.3),0 4px 16px rgba(0,0,0,0.2);
+  --shadow-lg:0 4px 24px rgba(0,0,0,0.4),0 1px 4px rgba(0,0,0,0.2);
+  --green-bg:#052E16;--green-border:#166534;
+  --red-bg:#450A0A;--red-border:#991B1B;
+  --yellow-bg:#2D1A00;--yellow-border:#92400E;
+  --orange-bg:#2D1200;--orange-border:#9A3412;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{width:100%;min-height:100%;-webkit-text-size-adjust:100%;}
+body{
+  font-family:var(--font);background:var(--bg);color:var(--text);
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom);transition:background .3s,color .3s;
+}
+/* TELAS */
+.tela{display:none;}
+.tela.ativa{display:block;}
+
+/* ===== TELA INÍCIO ===== */
+.inicio-wrap{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px 16px;background:linear-gradient(160deg,var(--bg) 0%,var(--bg2) 100%);
+}
+.logo-box{text-align:center;margin-bottom:32px;}
+.logo-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--primary);color:#fff;
+  padding:10px 20px;border-radius:50px;font-size:13px;font-weight:600;
+  letter-spacing:.05em;text-transform:uppercase;margin-bottom:16px;
+  box-shadow:0 4px 20px var(--primary-glow);
+}
+.logo-badge svg{width:18px;height:18px;}
+.logo-title{font-size:28px;font-weight:700;color:var(--text);line-height:1.2;margin-bottom:6px;}
+.logo-sub{font-size:14px;color:var(--text3);font-weight:400;}
+
+.card-inicio{
+  width:100%;max-width:480px;background:var(--surface);
+  border-radius:var(--radius-lg);border:1px solid var(--border);
+  box-shadow:var(--shadow-lg);padding:28px 24px;
+}
+.form-group{margin-bottom:20px;}
+.form-label{
+  display:block;font-size:12px;font-weight:600;color:var(--text2);
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;
+}
+.form-input{
+  width:100%;padding:12px 14px;border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);font-size:15px;font-family:var(--font);
+  background:var(--surface2);color:var(--text);
+  transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;
+}
+.form-input:focus{
+  outline:none;border-color:var(--primary-light);
+  box-shadow:0 0 0 3px var(--primary-glow);
+}
+select.form-input{
+  background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3e%3cpath fill='%231B3F72' d='M6 8L0 0h12z'/%3e%3c/svg%3e");
+  background-repeat:no-repeat;background-position:right 14px center;background-size:10px;padding-right:36px;
+}
+.dark select.form-input{
+  background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3e%3cpath fill='%2360A5FA' d='M6 8L0 0h12z'/%3e%3c/svg%3e");
+}
+.btn-start{
+  width:100%;padding:15px;border-radius:var(--radius-sm);
+  background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);
+  color:#fff;font-size:16px;font-weight:700;font-family:var(--font);
+  border:none;cursor:pointer;letter-spacing:.02em;
+  box-shadow:0 4px 16px var(--primary-glow);
+  transition:transform .15s,box-shadow .15s;-webkit-appearance:none;
+  touch-action:manipulation;
+}
+.btn-start:active{transform:scale(.98);}
+.dark-toggle{
+  position:fixed;top:16px;right:16px;z-index:1000;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:50px;padding:8px 14px;cursor:pointer;
+  font-size:13px;font-weight:600;color:var(--text2);
+  box-shadow:var(--shadow);transition:all .2s;
+  display:flex;align-items:center;gap:6px;touch-action:manipulation;
+}
+.dark-toggle:active{transform:scale(.95);}
+
+/* ===== HEADER AUDITORIA ===== */
+.audit-header{
+  background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);
+  padding:16px 16px;padding-top:calc(16px + env(safe-area-inset-top));
+  position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.15);
+}
+.audit-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.audit-header-left h2{font-size:17px;font-weight:700;color:#fff;line-height:1.2;}
+.audit-header-left p{font-size:12px;color:rgba(255,255,255,0.7);margin-top:2px;}
+.header-actions{display:flex;gap:8px;}
+.hbtn{
+  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
+  color:#fff;padding:7px 12px;border-radius:6px;font-size:12px;font-weight:600;
+  cursor:pointer;font-family:var(--font);touch-action:manipulation;
+  display:flex;align-items:center;gap:5px;
+}
+.hbtn:active{background:rgba(255,255,255,0.25);}
+.hbtn svg{width:14px;height:14px;}
+
+/* DASHBOARD */
+.dashboard{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:6px;
+  padding:12px 16px;background:var(--bg2);border-bottom:1px solid var(--border);
+}
+.dash-item{
+  background:var(--surface);border-radius:8px;padding:8px;text-align:center;
+  border:1px solid var(--border);
+}
+.dash-num{font-size:20px;font-weight:700;line-height:1;font-family:var(--mono);}
+.dash-label{font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-top:3px;}
+.dash-item.green .dash-num{color:var(--green);}
+.dash-item.red .dash-num{color:var(--red);}
+.dash-item.blue .dash-num{color:var(--accent);}
+.dash-item.pct .dash-num{color:var(--primary-light);}
+
+/* RISCO */
+.risco-bar{
+  padding:8px 16px;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid var(--border);font-size:13px;font-weight:600;
+}
+.risco-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.risco-verde .risco-dot{background:var(--green);}
+.risco-amarelo .risco-dot{background:#EAB308;}
+.risco-laranja .risco-dot{background:var(--orange);}
+.risco-vermelho .risco-dot{background:var(--red);}
+.risco-verde{color:var(--green);}
+.risco-amarelo{color:#CA8A04;}
+.risco-laranja{color:var(--orange);}
+.risco-vermelho{color:var(--red);}
+
+/* PROG */
+.prog-wrap{padding:10px 16px 0;background:var(--bg2);}
+.prog-info{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);font-weight:600;margin-bottom:5px;}
+.prog-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--accent));border-radius:2px;transition:width .4s;}
+
+/* NAVEGAÇÃO ANDARES */
+.andares-nav{
+  padding:10px 16px;background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+  padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));
+}
+.andares-nav::-webkit-scrollbar{display:none;}
+.andar-tab{
+  flex-shrink:0;padding:7px 14px;border-radius:50px;font-size:12px;font-weight:700;
+  cursor:pointer;border:1.5px solid var(--border);background:var(--surface);
+  color:var(--text2);touch-action:manipulation;white-space:nowrap;
+  transition:all .2s;font-family:var(--font);
+}
+.andar-tab.ativo{background:var(--primary);color:#fff;border-color:var(--primary);}
+.andar-tab.ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.andar-tab.nc{background:var(--red-bg);border-color:var(--red-border);color:var(--red);}
+
+/* CORPO CHECKLIST */
+.checklist-body{padding:16px;max-width:780px;margin:0 auto;}
+
+/* SEÇÃO */
+.secao{
+  background:var(--surface);border-radius:var(--radius);
+  border:1px solid var(--border);margin-bottom:16px;overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.secao-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;cursor:pointer;touch-action:manipulation;
+  background:linear-gradient(90deg,var(--surface) 0%,var(--surface2) 100%);
+  border-bottom:1px solid var(--border);
+}
+.secao-header-left{display:flex;align-items:center;gap:12px;}
+.secao-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+}
+.secao-title{font-size:14px;font-weight:700;color:var(--text);}
+.secao-subtitle{font-size:11px;color:var(--text3);margin-top:1px;}
+.secao-badges{display:flex;gap:5px;align-items:center;}
+.sbadge{
+  padding:3px 8px;border-radius:50px;font-size:10px;font-weight:700;
+  font-family:var(--mono);letter-spacing:.02em;
+}
+.sbadge-ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.sbadge-nc{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
+.secao-chevron{color:var(--text3);transition:transform .3s;flex-shrink:0;}
+.secao-chevron.open{transform:rotate(180deg);}
+.secao-body{padding:0;}
+.secao-body.collapsed{display:none;}
+
+/* ITEM */
+.item{
+  padding:16px;border-top:1px solid var(--border);
+  transition:background .2s;
+}
+.item.nc-ativo{background:var(--red-bg);}
+.item-num-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
+.item-num{
+  flex-shrink:0;width:24px;height:24px;border-radius:6px;
+  background:var(--bg2);border:1px solid var(--border);
+  font-size:11px;font-weight:700;font-family:var(--mono);color:var(--text3);
+  display:flex;align-items:center;justify-content:center;margin-top:1px;
+}
+.item-text{font-size:14px;font-weight:500;color:var(--text);line-height:1.5;flex:1;}
+
+.opcoes-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:0;}
+.opcao-btn{
+  padding:9px 6px;border-radius:8px;border:1.5px solid var(--border);
+  background:var(--surface);font-size:11px;font-weight:700;
+  cursor:pointer;font-family:var(--font);text-align:center;
+  touch-action:manipulation;transition:all .15s;color:var(--text2);
+  -webkit-appearance:none;line-height:1.2;
+}
+.opcao-btn:active{transform:scale(.96);}
+.opcao-btn.conf.sel{background:var(--green-bg);border-color:var(--green);color:var(--green);box-shadow:0 2px 8px rgba(22,163,74,0.15);}
+.opcao-btn.nc.sel{background:var(--red-bg);border-color:var(--red);color:var(--red);box-shadow:0 2px 8px rgba(220,38,38,0.15);}
+.opcao-btn.na.sel{background:var(--bg2);border-color:var(--border2);color:var(--text2);}
+
+/* CAMPOS EXTRAS */
+.extras{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
+.obs-textarea{
+  width:100%;min-height:80px;padding:10px 12px;
+  border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  font-size:14px;font-family:var(--font);background:var(--surface2);
+  color:var(--text);resize:vertical;transition:border-color .2s;
+}
+.obs-textarea:focus{outline:none;border-color:var(--primary-light);box-shadow:0 0 0 3px var(--primary-glow);}
+.obs-textarea.obrigatorio{border-color:var(--red);}
+.char-count{font-size:10px;color:var(--text3);text-align:right;font-family:var(--mono);}
+
+/* FOTO */
+.foto-area{
+  border:1.5px dashed var(--border);border-radius:var(--radius-sm);
+  padding:12px;background:var(--surface2);
+}
+.foto-area.obrigatorio{border-color:var(--red);}
+.foto-label-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.foto-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;}
+.foto-count{
+  font-size:10px;font-family:var(--mono);font-weight:700;
+  background:var(--primary);color:#fff;padding:2px 8px;border-radius:50px;
+}
+.foto-btns{display:flex;gap:6px;margin-bottom:8px;}
+.foto-btn{
+  flex:1;padding:9px;border-radius:7px;border:1.5px solid var(--border);
+  background:var(--surface);font-size:11px;font-weight:700;color:var(--text2);
+  cursor:pointer;font-family:var(--font);touch-action:manipulation;
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  -webkit-appearance:none;transition:all .15s;
+}
+.foto-btn:active{transform:scale(.97);}
+.foto-input{display:none;}
+.foto-preview{display:flex;flex-wrap:wrap;gap:6px;}
+.foto-thumb{
+  position:relative;width:64px;height:64px;border-radius:7px;
+  overflow:hidden;border:2px solid var(--border);
+}
+.foto-thumb img{width:100%;height:100%;object-fit:cover;}
+.foto-del{
+  position:absolute;top:2px;right:2px;width:18px;height:18px;
+  background:var(--red);color:#fff;border-radius:50%;
+  font-size:10px;font-weight:900;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  touch-action:manipulation;border:none;
+}
+
+/* OBS SEÇÃO */
+.secao-obs-wrap{padding:12px 16px 16px;border-top:1px solid var(--border);}
+.secao-obs-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+
+/* FOOTER NAV */
+.andar-footer{
+  position:sticky;bottom:0;background:var(--surface);
+  border-top:1px solid var(--border);
+  padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom));
+  display:flex;gap:10px;box-shadow:0 -4px 16px rgba(0,0,0,0.06);
+  z-index:90;
+}
+.andar-footer .btn-nav{
+  flex:1;padding:13px;border-radius:var(--radius-sm);font-size:14px;font-weight:700;
+  cursor:pointer;border:none;font-family:var(--font);touch-action:manipulation;
+  -webkit-appearance:none;transition:all .15s;
+}
+.btn-nav:active{transform:scale(.97);}
+.btn-back{background:var(--surface2);color:var(--text2);border:1.5px solid var(--border)!important;}
+.btn-next{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;}
+.btn-finish{background:linear-gradient(135deg,var(--green),#22C55E);color:#fff;}
+
+/* ===== RELATÓRIO ===== */
+.relatorio-wrap{min-height:100vh;background:var(--bg);}
+.rel-header{
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  padding:20px 16px;padding-top:calc(20px + env(safe-area-inset-top));
+  color:#fff;
+}
+.rel-header h1{font-size:22px;font-weight:700;margin-bottom:4px;}
+.rel-header p{font-size:13px;opacity:.8;}
+.rel-body{padding:16px;max-width:780px;margin:0 auto;}
+.rel-section{
+  background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);
+  margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow);
+}
+.rel-section-title{
+  padding:14px 16px;background:var(--surface2);border-bottom:1px solid var(--border);
+  font-size:13px;font-weight:700;color:var(--primary-light);text-transform:uppercase;
+  letter-spacing:.06em;display:flex;align-items:center;gap:8px;
+}
+.rel-section-body{padding:16px;}
+.rel-stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media(min-width:480px){.rel-stats-grid{grid-template-columns:repeat(4,1fr);}}
+.rel-stat{text-align:center;padding:14px;background:var(--surface2);border-radius:10px;border:1px solid var(--border);}
+.rel-stat .rn{font-size:26px;font-weight:800;font-family:var(--mono);}
+.rel-stat .rl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;}
+.rel-stat.gc .rn{color:var(--green);}
+.rel-stat.rc .rn{color:var(--red);}
+.rel-stat.pc .rn{color:var(--primary-light);}
+.rel-stat.oc .rn{color:var(--text3);}
+
+/* TABELA */
+.rel-table{width:100%;border-collapse:collapse;font-size:12px;}
+.rel-table th{
+  background:var(--primary);color:#fff;padding:8px 10px;
+  text-align:left;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.04em;
+}
+.rel-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.rel-table tr:last-child td{border-bottom:none;}
+.rel-table tr.total td{background:var(--surface2);font-weight:700;}
+.rel-table .rank{font-size:16px;}
+
+/* NC LISTA */
+.nc-item{
+  padding:12px;border-radius:var(--radius-sm);background:var(--red-bg);
+  border:1px solid var(--red-border);margin-bottom:8px;
+}
+.nc-item-header{font-size:12px;font-weight:700;color:var(--red);margin-bottom:4px;}
+.nc-item-text{font-size:13px;color:var(--text);margin-bottom:6px;line-height:1.5;}
+.nc-item-obs{font-size:12px;color:var(--text2);font-style:italic;}
+
+/* GRÁFICO CANVAS */
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:480px){.chart-row{grid-template-columns:1fr;}}
+.chart-box{background:var(--surface2);border-radius:10px;padding:14px;border:1px solid var(--border);}
+.chart-title{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;}
+
+/* RANKING */
+.ranking-list{display:flex;flex-direction:column;gap:8px;}
+.ranking-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  background:var(--surface2);border-radius:8px;border:1px solid var(--border);
+}
+.ranking-medal{font-size:20px;width:30px;text-align:center;}
+.ranking-info{flex:1;}
+.ranking-name{font-size:13px;font-weight:700;color:var(--text);}
+.ranking-pct{font-size:11px;color:var(--text3);font-family:var(--mono);}
+.ranking-bar-wrap{width:80px;background:var(--border);border-radius:50px;height:6px;overflow:hidden;}
+.ranking-bar-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--accent));border-radius:50px;}
+
+/* RISCO BADGE */
+.risco-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:50px;font-size:11px;font-weight:700;}
+.rb-verde{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.rb-amarelo{background:var(--yellow-bg);color:var(--yellow);border:1px solid var(--yellow-border);}
+.rb-laranja{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border);}
+.rb-vermelho{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
+
+/* RESUMO EXECUTIVO */
+.resumo-executivo{
+  padding:16px;background:linear-gradient(135deg,var(--primary-glow),transparent);
+  border:1px solid var(--border);border-radius:var(--radius);
+  font-size:14px;line-height:1.7;color:var(--text);
+  border-left:4px solid var(--primary-light);
+}
+
+/* BOTÕES RELATÓRIO */
+.rel-btns{display:flex;flex-wrap:wrap;gap:10px;padding:16px;justify-content:center;}
+.rel-btn{
+  padding:12px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:700;
+  cursor:pointer;font-family:var(--font);touch-action:manipulation;-webkit-appearance:none;
+  display:flex;align-items:center;gap:7px;border:none;transition:all .15s;
+}
+.rel-btn:active{transform:scale(.97);}
+.rel-btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;}
+.rel-btn-green{background:linear-gradient(135deg,var(--green),#22C55E);color:#fff;}
+.rel-btn-outline{background:var(--surface);color:var(--text2);border:1.5px solid var(--border)!important;}
+
+/* FOTO EVIDENCIA */
+.foto-ev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+@media(min-width:480px){.foto-ev-grid{grid-template-columns:repeat(4,1fr);}}
+.foto-ev-item{border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+.foto-ev-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
+.foto-ev-cap{padding:5px 6px;font-size:9px;color:var(--text3);background:var(--surface2);line-height:1.3;}
+
+
+/* ANDARES BUILDER */
+.andares-builder{border:1.5px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:var(--surface2);}
+.ab-tags{
+  min-height:52px;padding:10px 10px 4px;display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start;
+  border-bottom:1px solid var(--border);
+}
+.ab-empty{font-size:13px;color:var(--text3);font-style:italic;padding:4px 2px;}
+.ab-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--primary);color:#fff;
+  padding:5px 10px 5px 12px;border-radius:50px;font-size:13px;font-weight:600;
+  animation:tagIn .2s cubic-bezier(.4,0,.2,1);
+}
+@keyframes tagIn{from{opacity:0;transform:scale(.85);}to{opacity:1;transform:scale(1);}}
+.ab-tag-del{
+  background:rgba(255,255,255,0.25);border:none;color:#fff;
+  width:18px;height:18px;border-radius:50%;font-size:12px;font-weight:900;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;touch-action:manipulation;padding:0;line-height:1;
+}
+.ab-tag-del:active{background:rgba(255,255,255,0.45);}
+.ab-input-row{display:flex;gap:8px;padding:10px;}
+.ab-add-btn{
+  flex-shrink:0;padding:12px 16px;border-radius:var(--radius-sm);
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;
+  font-family:var(--font);touch-action:manipulation;white-space:nowrap;
+  -webkit-appearance:none;transition:all .15s;
+}
+.ab-add-btn:active{transform:scale(.96);}
+.ab-count{
+  padding:6px 12px;background:var(--surface2);border-top:1px solid var(--border);
+  font-size:11px;color:var(--text3);font-weight:600;text-align:center;
+  text-transform:uppercase;letter-spacing:.05em;
+}
+@media(min-width:640px){
+  .dashboard{grid-template-columns:repeat(7,1fr);}
+  .opcoes-row{grid-template-columns:auto auto auto;justify-content:start;}
+  .opcao-btn{padding:9px 20px;}
+}
+@media print{
+  .dark-toggle,.andar-footer,.andares-nav,.hbtn,.rel-btns{display:none!important;}
+  body{background:#fff!important;color:#000!important;}
+  .rel-section,.secao{break-inside:avoid;box-shadow:none!important;}
+}
+</style>
+</head>
+<body>
+
+<button class="dark-toggle" ontouchstart="" onclick="toggleDark();return false;" id="darkBtn">🌙 Escuro</button>
+
+<!-- ===== TELA INÍCIO ===== -->
+<div id="tela-inicio" class="tela ativa">
+  <div class="inicio-wrap">
+    <div class="logo-box">
+      <div class="logo-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        BSL Saúde
+      </div>
+      <div class="logo-title">Sistema de Auditoria</div>
+      <div class="logo-sub">Qualidade & Segurança do Residente</div>
+    </div>
+    <div class="card-inicio">
+      <div class="form-group">
+        <label class="form-label">Nome do Auditor</label>
+        <input type="text" id="inp-nome" class="form-input" placeholder="Nome completo" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Unidade</label>
+        <select id="inp-unidade" class="form-input">
+          <option value="">Selecione...</option>
+          <option>Cora Jardins</option><option>Cora Tatuapé</option>
+          <option>Cora Premium</option><option>Cora Campo Belo</option>
+          <option>Cora Morumbi</option><option>Bem Viver</option>
+          <option>Vivace Saúde</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Andares a Auditar</label>
+        <div class="andares-builder" id="andares-builder">
+          <div class="ab-tags" id="ab-tags"><span class="ab-empty">Nenhum andar adicionado ainda</span></div>
+          <div class="ab-input-row">
+            <select id="ab-select" class="form-input" style="margin-bottom:0;flex:1;">
+              <option value="">Selecionar andar...</option>
+              <option value="Térreo">Térreo</option>
+              <option value="1">1º Andar</option><option value="2">2º Andar</option>
+              <option value="3">3º Andar</option><option value="4">4º Andar</option>
+              <option value="5">5º Andar</option><option value="6">6º Andar</option>
+              <option value="7">7º Andar</option><option value="8">8º Andar</option>
+              <option value="9">9º Andar</option><option value="10">10º Andar</option>
+              <option value="11">11º Andar</option><option value="12">12º Andar</option>
+              <option value="13">13º Andar</option><option value="14">14º Andar</option>
+              <option value="15">15º Andar</option><option value="16">16º Andar</option>
+              <option value="17">17º Andar</option><option value="18">18º Andar</option>
+              <option value="19">19º Andar</option><option value="20">20º Andar</option>
+              <option value="Cobertura">Cobertura</option>
+              <option value="Subsolo">Subsolo</option>
+            </select>
+            <button type="button" class="ab-add-btn" ontouchstart="" onclick="return adicionarAndar();">+ Adicionar</button>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn-start" ontouchstart="" onclick="return iniciarAuditoria();">
+        🚀 Iniciar Auditoria
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TELA AUDITORIA ===== -->
+<div id="tela-auditoria" class="tela">
+  <div class="audit-header">
+    <div class="audit-header-top">
+      <div class="audit-header-left">
+        <h2 id="ah-titulo">Auditoria</h2>
+        <p id="ah-sub">Carregando...</p>
+      </div>
+      <div class="header-actions">
+        <button class="hbtn" ontouchstart="" onclick="salvarLocal();return false;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+          Salvar
+        </button>
+        <button class="hbtn" ontouchstart="" onclick="voltarInicio();return false;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="prog-wrap" class="prog-wrap" style="margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;">
+      <div class="prog-info">
+        <span id="prog-txt">0% concluído</span>
+        <span id="prog-itens">0/11</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div id="dashboard" class="dashboard">
+    <div class="dash-item blue"><div class="dash-num" id="d-total">0</div><div class="dash-label">Itens</div></div>
+    <div class="dash-item green"><div class="dash-num" id="d-conf">0</div><div class="dash-label">✅ Conf.</div></div>
+    <div class="dash-item red"><div class="dash-num" id="d-nc">0</div><div class="dash-label">❌ N.C.</div></div>
+    <div class="dash-item pct"><div class="dash-num" id="d-pct">—</div><div class="dash-label">% Conf.</div></div>
+  </div>
+
+  <div id="risco-bar" class="risco-bar risco-verde">
+    <div class="risco-dot"></div>
+    <span id="risco-txt">Baixo Risco — Nenhuma não conformidade</span>
+  </div>
+
+  <div id="andares-nav" class="andares-nav"></div>
+
+  <div id="checklist-body" class="checklist-body"></div>
+
+  <div class="andar-footer">
+    <button type="button" class="btn-nav btn-back" ontouchstart="" onclick="return navAndar(-1);">← Voltar</button>
+    <button type="button" class="btn-nav btn-next" ontouchstart="" id="btn-next-andar" onclick="return navAndar(1);">Próximo →</button>
+  </div>
+</div>
+
+<!-- ===== TELA RELATÓRIO ===== -->
+<div id="tela-relatorio" class="tela">
+  <div class="rel-header">
+    <h1>📋 Relatório Executivo</h1>
+    <p id="rel-header-sub">Auditoria concluída</p>
+  </div>
+  <div id="rel-body" class="rel-body"></div>
+  <div class="rel-btns">
+    <button type="button" class="rel-btn rel-btn-outline" ontouchstart="" onclick="return novaAuditoria();">🔄 Nova Auditoria</button>
+    <button type="button" class="rel-btn rel-btn-primary" ontouchstart="" onclick="return voltarAuditoria();">✏️ Editar</button>
+    <button type="button" class="rel-btn rel-btn-green" ontouchstart="" onclick="return gerarPDF();">📄 Imprimir / PDF</button>
+  </div>
+</div>
+
+<script>
+// ========== DADOS ==========
+var SECOES = [
+  {id:'med', icon:'💊', title:'Medicamentos', color:'#16A34A',
+   itens:[
+    'O carrinho de medicamentos permanece trancado e sem a chave acoplada à fechadura?',
+    'Há ausência de medicamentos multidose sem identificação adequada?',
+    'Os medicamentos multidose possuem identificação e validade registradas corretamente?',
+    'Há ausência de medicamentos multidose com prazo de validade vencido?'
+   ]},
+  {id:'esp', icon:'💧', title:'Hidratação com Espessante', color:'#0EA5E9',
+   itens:[
+    'A equipe identifica corretamente os residentes que utilizam espessante?',
+    'A equipe conhece a consistência prescrita (néctar, mel ou pudim) para cada residente?',
+    'As orientações sobre uso e consistência do espessante estão registradas na PM?'
+   ]},
+  {id:'pac', icon:'👥', title:'Conferência de 5 Residentes', color:'#8B5CF6',
+   itens:[
+    'Os medicamentos administrados conferem com a prescrição médica vigente?',
+    'As administrações de medicamentos estão registradas corretamente no IW (data, horário e responsável)?',
+    'Em casos de recusa, há registro adequado e identificado no sistema?',
+    'Os registros de sinais vitais e eliminações estão atualizados e lançados no IW?'
+   ]}
+];
+var TOTAL_ITENS = SECOES.reduce(function(a,s){return a+s.itens.length;},0);
+
+var state = {
+  nome:'', unidade:'', totalAndares:0,
+  andarAtual:1, andarAberto:1,
+  inicio: new Date(),
+  respostas:{}, obs:{}, fotos:{}, obsSecao:{},
+  secaoColapsada:{},
+  salvo: false
+};
+
+function $(id){return document.getElementById(id);}
+
+function chave(a){return 'a'+a;}
+function chaveItem(a,s,i){return 'a'+a+'_s'+s+'_i'+i;}
+function chaveObs(a,s,i){return 'o'+a+'_s'+s+'_i'+i;}
+function chaveFoto(a,s,i){return 'f'+a+'_s'+s+'_i'+i;}
+function chaveObsSec(a,s){return 'os'+a+'_s'+s;}
+
+// ========== DARK MODE ==========
+function toggleDark(){
+  document.body.classList.toggle('dark');
+  $('darkBtn').textContent = document.body.classList.contains('dark') ? '☀️ Claro' : '🌙 Escuro';
+  localStorage.setItem('bsl_dark', document.body.classList.contains('dark')?'1':'0');
+}
+if(localStorage.getItem('bsl_dark')==='1'){document.body.classList.add('dark');if($('darkBtn'))$('darkBtn').textContent='☀️ Claro';}
+
+// ========== ANDARES BUILDER ==========
+var andaresLista = [];
+
+function adicionarAndar(){
+  var sel = $('ab-select');
+  var val = sel.value;
+  if(!val){alert('Selecione um andar');return false;}
+  if(andaresLista.indexOf(val) !== -1){alert('Este andar já foi adicionado');return false;}
+  andaresLista.push(val);
+  renderTags();
+  sel.value = '';
+  return false;
+}
+
+function removerAndar(val){
+  andaresLista = andaresLista.filter(function(a){return a !== val;});
+  renderTags();
+  return false;
+}
+
+function renderTags(){
+  var box = $('ab-tags');
+  if(!box) return;
+  if(andaresLista.length === 0){
+    box.innerHTML = '<span class="ab-empty">Nenhum andar adicionado ainda</span>';
+    return;
+  }
+  var html = '';
+  andaresLista.forEach(function(val){
+    var label = isNaN(val) ? val : val + 'º Andar';
+    html += '<div class="ab-tag">'+label+'<button type="button" class="ab-tag-del" ontouchstart="" onclick="return removerAndar(&quot;'+val+'&quot;);">×</button></div>';
+  });
+  box.innerHTML = html;
+}
+
+// ========== INÍCIO ==========
+function iniciarAuditoria(){
+  var nome=$('inp-nome').value.trim();
+  var unidade=$('inp-unidade').value;
+  if(!nome){alert('Digite seu nome');return false;}
+  if(!unidade){alert('Selecione a unidade');return false;}
+  if(andaresLista.length === 0){alert('Adicione pelo menos um andar para auditar');return false;}
+  state.nome=nome; state.unidade=unidade;
+  state.andaresList = andaresLista.slice();
+  state.totalAndares = state.andaresList.length;
+  state.andarAtual=0; state.andarAberto=0;
+  state.inicio=new Date(); state.respostas={}; state.obs={}; state.fotos={}; state.obsSecao={};
+  renderAuditoria();
+  trocarTela('tela-auditoria');
+  return false;
+}
+
+function trocarTela(id){
+  document.querySelectorAll('.tela').forEach(function(t){t.classList.remove('ativa');});
+  $(id).classList.add('ativa');
+  window.scrollTo(0,0);
+}
+
+// ========== NAVEGAÇÃO ANDARES ==========
+function renderNavAndares(){
+  var nav=$('andares-nav');
+  var html='';
+  var lista=state.andaresList||[];
+  lista.forEach(function(val,idx){
+    var label=isNaN(val)?val:val+'º Andar';
+    var cls='andar-tab';
+    if(idx===state.andarAberto)cls+=' ativo';
+    else{var st=statusAndarIdx(idx);if(st==='nc')cls+=' nc';else if(st==='ok')cls+=' ok';}
+    html+='<button type="button" class="'+cls+'" ontouchstart="" onclick="return abrirAndar('+idx+');">'+label+'</button>';
+  });
+  nav.innerHTML=html;
+}
+
+function abrirAndar(idx){
+  salvarObsAtual();
+  state.andarAberto=idx;
+  state.andarAtual=idx;
+  renderAuditoria();
+  return false;
+}
+
+function statusAndar(a){
+  var r=state.respostas;
+  var hasNC=false, hasAns=false;
+  for(var s=0;s<SECOES.length;s++){
+    for(var i=0;i<SECOES[s].itens.length;i++){
+      var v=r[chaveItem(a,s,i)];
+      if(v){hasAns=true; if(v==='nc')hasNC=true;}
+    }
+  }
+  if(hasNC)return 'nc';
+  if(hasAns)return 'ok';
+  return '';
+}
+function statusAndarIdx(idx){return statusAndar(idx);}
+
+// ========== RENDER PRINCIPAL ==========
+function renderAuditoria(){
+  var a=state.andarAberto;
+  var andarLabel=(state.andaresList&&state.andaresList[a])?
+    (isNaN(state.andaresList[a])?state.andaresList[a]:state.andaresList[a]+'º Andar'):'Andar '+(a+1);
+  $('ah-titulo').textContent=state.unidade+' — '+andarLabel;
+  $('ah-sub').textContent='Auditor: '+state.nome+' | '+new Date().toLocaleDateString('pt-BR');
+  var btnNext=$('btn-next-andar');
+  if(a===state.totalAndares-1){
+    btnNext.textContent='✅ Finalizar'; btnNext.className='btn-nav btn-finish';
+  }else{
+    btnNext.textContent='Próximo →'; btnNext.className='btn-nav btn-next';
+  }
+  renderNavAndares();
+  renderChecklist(a);
+  atualizarDashboard();
+}
+
+function renderChecklist(a){
+  var body=$('checklist-body');
+  var html='';
+  for(var s=0;s<SECOES.length;s++){
+    var sec=SECOES[s];
+    var nConf=0,nNC=0;
+    for(var i=0;i<sec.itens.length;i++){
+      var v=state.respostas[chaveItem(a,s,i)]||'';
+      if(v==='conf')nConf++;else if(v==='nc')nNC++;
+    }
+    var colapsada=state.secaoColapsada['s'+a+'_'+s];
+    html+='<div class="secao">';
+    html+='<div class="secao-header" onclick="toggleSecao('+a+','+s+');return false;" ontouchstart="">';
+    html+='<div class="secao-header-left">';
+    html+='<div class="secao-icon" style="background:'+sec.color+'20">'+sec.icon+'</div>';
+    html+='<div><div class="secao-title">'+sec.title+'</div>';
+    html+='<div class="secao-subtitle">'+sec.itens.length+' itens</div></div></div>';
+    html+='<div style="display:flex;align-items:center;gap:6px">';
+    if(nConf>0)html+='<span class="sbadge sbadge-ok">✅ '+nConf+'</span>';
+    if(nNC>0)html+='<span class="sbadge sbadge-nc">❌ '+nNC+'</span>';
+    html+='<svg class="secao-chevron '+(colapsada?'':'open')+'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>';
+    html+='</div></div>';
+    html+='<div class="secao-body'+(colapsada?' collapsed':'') +'" id="sb_'+a+'_'+s+'">';
+    for(var i2=0;i2<sec.itens.length;i2++){
+      html+=renderItem(a,s,i2,sec.itens[i2]);
+    }
+    var osKey=chaveObsSec(a,s);
+    var osVal=state.obsSecao[osKey]||'';
+    html+='<div class="secao-obs-wrap">';
+    html+='<div class="secao-obs-label">📝 Observações Gerais — '+sec.title+'</div>';
+    html+='<textarea class="obs-textarea" style="min-height:60px;" placeholder="Observações gerais desta seção..." oninput="state.obsSecao[\''+osKey+'\']=this.value;" id="os_'+a+'_'+s+'">'+osVal+'</textarea>';
+    html+='</div></div></div>';
+  }
+  body.innerHTML=html;
+}
+
+function renderItem(a,s,i,texto){
+  var k=chaveItem(a,s,i);
+  var ok=chaveObs(a,s,i);
+  var fk=chaveFoto(a,s,i);
+  var val=state.respostas[k]||'';
+  var obsVal=state.obs[ok]||'';
+  var fotos=state.fotos[fk]||[];
+  var isNC=(val==='nc');
+  var n=(SECOES.slice(0,s).reduce(function(a,x){return a+x.itens.length;},0))+i+1;
+  var html='<div class="item'+(isNC?' nc-ativo':'')+'" id="item_'+a+'_'+s+'_'+i+'">';
+  html+='<div class="item-num-row"><div class="item-num">'+n+'</div>';
+  html+='<div class="item-text">'+texto+'</div></div>';
+  html+='<div class="opcoes-row">';
+  html+='<button type="button" class="opcao-btn conf'+(val==='conf'?' sel':'')+'" ontouchstart="" onclick="return selResp('+a+','+s+','+i+',\'conf\',this);">✅ Conforme</button>';
+  html+='<button type="button" class="opcao-btn nc'+(val==='nc'?' sel':'')+'" ontouchstart="" onclick="return selResp('+a+','+s+','+i+',\'nc\',this);">❌ Não Conforme</button>';
+  html+='<button type="button" class="opcao-btn na'+(val==='parc'?' sel':'')+'" ontouchstart="" onclick="return selResp('+a+','+s+','+i+',\'parc\',this);">🟡 Parcial Conforme</button>';
+  html+='</div>';
+  html+='<div class="extras" id="ext_'+a+'_'+s+'_'+i+'" style="'+(val===''?'display:none':'')+'">';
+  html+='<textarea class="obs-textarea'+(isNC?' obrigatorio':'')+'" placeholder="Observações sobre este item (mín. 500 caracteres se Não Conforme)..." oninput="state.obs[\''+ok+'\']=this.value;updateCharCount(\'cc_'+a+'_'+s+'_'+i+'\',this.value);" id="obs_'+a+'_'+s+'_'+i+'">'+obsVal+'</textarea>';
+  html+='<div class="char-count" id="cc_'+a+'_'+s+'_'+i+'">'+obsVal.length+' / 500 min.</div>';
+  html+='<div class="foto-area'+(isNC?' obrigatorio':'')+'">';
+  html+='<div class="foto-label-row"><div class="foto-label">📷 Evidências Fotográficas</div>';
+  html+='<span class="foto-count">'+fotos.length+' foto(s)</span></div>';
+  html+='<div class="foto-btns">';
+  html+='<label class="foto-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg> Câmera<input type="file" class="foto-input" accept="image/*" capture="environment" multiple onchange="addFotos('+a+','+s+','+i+',this)"></label>';
+  html+='<label class="foto-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Galeria<input type="file" class="foto-input" accept="image/*" multiple onchange="addFotos('+a+','+s+','+i+',this)"></label>';
+  html+='</div>';
+  html+='<div class="foto-preview" id="fp_'+a+'_'+s+'_'+i+'">'+renderFotos(fotos,a,s,i)+'</div>';
+  html+='</div></div></div>';
+  return html;
+}
+
+function renderFotos(fotos,a,s,i){
+  var html='';
+  fotos.forEach(function(src,idx){
+    html+='<div class="foto-thumb"><img src="'+src+'" loading="lazy"><button type="button" class="foto-del" onclick="return delFoto('+a+','+s+','+i+','+idx+')">×</button></div>';
+  });
+  return html;
+}
+
+function updateCharCount(id,val){var el=$(id);if(el)el.textContent=val.length+' / 500 min.';}
+
+function toggleSecao(a,s){
+  var k='s'+a+'_'+s;
+  state.secaoColapsada[k]=!state.secaoColapsada[k];
+  var body=$('sb_'+a+'_'+s);
+  var chev=body?body.previousElementSibling.querySelector('.secao-chevron'):null;
+  if(body)body.classList.toggle('collapsed',state.secaoColapsada[k]);
+  if(chev)chev.classList.toggle('open',!state.secaoColapsada[k]);
+}
+
+function selResp(a,s,i,val,btn){
+  var k=chaveItem(a,s,i);
+  var old=state.respostas[k];
+  if(old===val){delete state.respostas[k]; val='';}
+  else{state.respostas[k]=val;}
+  var itemEl=$('item_'+a+'_'+s+'_'+i);
+  var extEl=$('ext_'+a+'_'+s+'_'+i);
+  if(itemEl){itemEl.className='item'+(val==='nc'?' nc-ativo':'');}
+  if(extEl){extEl.style.display=(val===''?'none':'');}
+  var card=btn?btn.closest('.opcoes-row'):null;
+  if(card){card.querySelectorAll('.opcao-btn').forEach(function(b){b.classList.remove('sel');});}
+  if(btn&&val)btn.classList.add('sel');
+  var obsEl=$('obs_'+a+'_'+s+'_'+i);
+  var fotoEl=extEl?extEl.querySelector('.foto-area'):null;
+  if(obsEl)obsEl.className='obs-textarea'+(val==='nc'?' obrigatorio':'');
+  if(fotoEl)fotoEl.className='foto-area'+(val==='nc'?' obrigatorio':'');
+  atualizarDashboard();
+  salvarLocal();
+  return false;
+}
+
+function addFotos(a,s,i,input){
+  var fk=chaveFoto(a,s,i);
+  if(!state.fotos[fk])state.fotos[fk]=[];
+  var files=Array.from(input.files);
+  var loaded=0;
+  files.forEach(function(f){
+    var r=new FileReader();
+    r.onload=function(e){
+      state.fotos[fk].push(e.target.result);
+      loaded++;
+      if(loaded===files.length){
+        var fp=$('fp_'+a+'_'+s+'_'+i);
+        if(fp)fp.innerHTML=renderFotos(state.fotos[fk],a,s,i);
+        var el=$('item_'+a+'_'+s+'_'+i);
+        if(el){var fc=el.querySelector('.foto-count');if(fc)fc.textContent=state.fotos[fk].length+' foto(s)';}
+        salvarLocal();
+      }
+    };
+    r.readAsDataURL(f);
+  });
+  input.value='';
+}
+
+function delFoto(a,s,i,idx){
+  var fk=chaveFoto(a,s,i);
+  if(state.fotos[fk]){state.fotos[fk].splice(idx,1);}
+  var fp=$('fp_'+a+'_'+s+'_'+i);
+  if(fp)fp.innerHTML=renderFotos(state.fotos[fk]||[],a,s,i);
+  var el=$('item_'+a+'_'+s+'_'+i);
+  if(el){var fc=el.querySelector('.foto-count');if(fc)fc.textContent=(state.fotos[fk]||[]).length+' foto(s)';}
+  salvarLocal();
+  return false;
+}
+
+function salvarObsAtual(){
+  for(var s=0;s<SECOES.length;s++){
+    for(var i=0;i<SECOES[s].itens.length;i++){
+      var ok=chaveObs(state.andarAberto,s,i);
+      var el=$('obs_'+state.andarAberto+'_'+s+'_'+i);
+      if(el)state.obs[ok]=el.value;
+      var osKey=chaveObsSec(state.andarAberto,s);
+      var osEl=$('os_'+state.andarAberto+'_'+s);
+      if(osEl)state.obsSecao[osKey]=osEl.value;
+    }
+  }
+}
+
+function navAndar(dir){
+  salvarObsAtual();
+  var next=state.andarAberto+dir;
+  if(next<0){voltarInicio();return false;}
+  if(next>=state.totalAndares){finalizarAuditoria();return false;}
+  abrirAndar(next);
+  return false;
+}
+
+function voltarInicio(){
+  if(confirm('Voltar ao início? O progresso não salvo será perdido.'))trocarTela('tela-inicio');
+  return false;
+}
+
+function voltarAuditoria(){trocarTela('tela-auditoria');return false;}
+
+// ========== DASHBOARD ==========
+function contarTodos(){
+  var c=0,nc=0,na=0;
+  for(var a=0;a<state.totalAndares;a++){
+    for(var s=0;s<SECOES.length;s++){
+      for(var i=0;i<SECOES[s].itens.length;i++){
+        var v=state.respostas[chaveItem(a,s,i)]||'';
+        if(v==='conf')c++;else if(v==='nc')nc++;else if(v==='parc')na++;
+      }
+    }
+  }
+  return{c:c,nc:nc,na:na,total:c+nc+na};
+}
+
+function contarAndar(a){
+  var c=0,nc=0,na=0;
+  for(var s=0;s<SECOES.length;s++){
+    for(var i=0;i<SECOES[s].itens.length;i++){
+      var v=state.respostas[chaveItem(a,s,i)]||'';
+      if(v==='conf')c++;else if(v==='nc')nc++;else if(v==='parc')na++;
+    }
+  }
+  return{c:c,nc:nc,na:na,total:c+nc+na};
+}
+
+function atualizarDashboard(){
+  var t=contarTodos();
+  var total=(state.andaresList?state.andaresList.length:state.totalAndares)*TOTAL_ITENS;
+  $('d-total').textContent=t.total;
+  $('d-conf').textContent=t.c;
+  $('d-nc').textContent=t.nc;
+  var pct=t.total>0?Math.round(t.c/(t.total)*100):0;
+  $('d-pct').textContent=t.total>0?pct+'%':'—';
+  var prog=Math.round(t.total/total*100);
+  $('prog-fill').style.width=prog+'%';
+  $('prog-txt').textContent=prog+'% preenchido';
+  $('prog-itens').textContent=t.total+'/'+total;
+  var rb=$('risco-bar');
+  rb.className='risco-bar ';
+  if(t.nc===0){rb.classList.add('risco-verde');$('risco-txt').textContent='🟢 Baixo Risco — Nenhuma não conformidade';}
+  else if(t.nc<=3){rb.classList.add('risco-amarelo');$('risco-txt').textContent='🟡 Atenção — '+t.nc+' não conformidade(s)';}
+  else if(t.nc<=6){rb.classList.add('risco-laranja');$('risco-txt').textContent='🟠 Risco Moderado — '+t.nc+' não conformidades';}
+  else{rb.classList.add('risco-vermelho');$('risco-txt').textContent='🔴 Risco Elevado — '+t.nc+' não conformidades';}
+}
+
+// ========== SAVE LOCAL ==========
+function salvarLocal(){
+  try{
+    var data={state:JSON.parse(JSON.stringify(state))};
+    // Não salvar fotos no localStorage (muito pesado)
+    data.state.fotos={};
+    localStorage.setItem('bsl_auditoria',JSON.stringify(data));
+    $('ah-sub').textContent='Auditor: '+state.nome+' | Salvo ✓';
+    setTimeout(function(){if($('ah-sub'))$('ah-sub').textContent='Auditor: '+state.nome+' | '+new Date().toLocaleDateString('pt-BR');},2000);
+  }catch(e){}
+}
+
+// ========== FINALIZAR ==========
+function finalizarAuditoria(){
+  salvarObsAtual();
+  gerarRelatorio();
+  trocarTela('tela-relatorio');
+}
+
+function novaAuditoria(){
+  if(confirm('Iniciar nova auditoria? Todos os dados serão perdidos.')){
+    state={nome:'',unidade:'',totalAndares:0,andarAtual:1,andarAberto:1,inicio:new Date(),respostas:{},obs:{},fotos:{},obsSecao:{},secaoColapsada:{},salvo:false};
+    $('inp-nome').value=''; $('inp-unidade').value=''; andaresLista=[]; renderTags();
+    trocarTela('tela-inicio');
+  }
+  return false;
+}
+
+// ========== GERAR RELATÓRIO ==========
+function getRiscoBadge(nc){
+  if(nc===0)return'<span class="risco-badge rb-verde">🟢 Baixo Risco</span>';
+  if(nc<=3)return'<span class="risco-badge rb-amarelo">🟡 Atenção</span>';
+  if(nc<=6)return'<span class="risco-badge rb-laranja">🟠 Risco Moderado</span>';
+  return'<span class="risco-badge rb-vermelho">🔴 Risco Elevado</span>';
+}
+
+function getRankMedal(pos){return['🥇','🥈','🥉'][pos]||'  ';}
+
+function gerarRelatorio(){
+  var t=contarTodos();
+  var pctGeral=t.total>0?Math.round(t.c/t.total*100):0;
+  var fim=new Date();
+  var dur=Math.round((fim-state.inicio)/60000);
+
+  $('rel-header-sub').textContent=state.unidade+' | '+new Date().toLocaleDateString('pt-BR')+' | Auditor: '+state.nome;
+
+  var andaresDados=[];
+  var lista=state.andaresList||[];
+  for(var idx=0;idx<lista.length;idx++){
+    var lbl=isNaN(lista[idx])?lista[idx]:lista[idx]+'º Andar';
+    var cnt=contarAndar(idx);
+    var pct=cnt.total>0?Math.round(cnt.c/cnt.total*100):100;
+    andaresDados.push({a:idx,label:lbl,cnt:cnt,pct:pct});
+  }
+  var ranking=[].concat(andaresDados).sort(function(x,y){return y.pct-x.pct;});
+
+  var html='';
+
+  // Dados gerais
+  html+='<div class="rel-section">';
+  html+='<div class="rel-section-title">📊 Dados Gerais</div>';
+  html+='<div class="rel-section-body">';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;font-size:13px;">';
+  html+='<div><span style="color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;">Unidade</span><div style="font-weight:600;margin-top:2px;">'+state.unidade+'</div></div>';
+  html+='<div><span style="color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;">Auditor</span><div style="font-weight:600;margin-top:2px;">'+state.nome+'</div></div>';
+  html+='<div><span style="color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;">Data</span><div style="font-weight:600;margin-top:2px;">'+new Date().toLocaleDateString('pt-BR')+'</div></div>';
+  html+='<div><span style="color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;">Duração</span><div style="font-weight:600;margin-top:2px;">'+dur+' minutos</div></div>';
+  html+='</div>';
+  html+='<div class="rel-stats-grid">';
+  html+='<div class="rel-stat gc"><div class="rn">'+t.c+'</div><div class="rl">✅ Conformes</div></div>';
+  html+='<div class="rel-stat rc"><div class="rn">'+t.nc+'</div><div class="rl">❌ Não Conf.</div></div>';
+  html+='<div class="rel-stat oc"><div class="rn">'+t.na+'</div><div class="rl">⚪ Parcial Conforme</div></div>';
+  html+='<div class="rel-stat pc"><div class="rn">'+pctGeral+'%</div><div class="rl">% Conformidade</div></div>';
+  html+='</div>';
+  html+='<div style="margin-top:12px">'+getRiscoBadge(t.nc)+'</div>';
+  html+='</div></div>';
+
+  // Tabela comparativa
+  html+='<div class="rel-section">';
+  html+='<div class="rel-section-title">📋 Tabela Comparativa dos Andares</div>';
+  html+='<div class="rel-section-body" style="overflow-x:auto;">';
+  html+='<table class="rel-table">';
+  html+='<thead><tr><th>Andar</th><th>✅ Conf.</th><th>❌ N.C.</th><th>⚪ Parcial Conforme</th><th>% Conf.</th><th>Risco</th></tr></thead><tbody>';
+  var totC2=0,totNC2=0,totNA2=0;
+  andaresDados.forEach(function(d){
+    totC2+=d.cnt.c; totNC2+=d.cnt.nc; totNA2+=d.cnt.na;
+    html+='<tr><td style="font-weight:700;">'+d.label+'</td><td style="color:var(--green);font-weight:700;">'+d.cnt.c+'</td><td style="color:var(--red);font-weight:700;">'+d.cnt.nc+'</td><td style="color:var(--text3);">'+d.cnt.na+'</td><td style="font-weight:700;font-family:var(--mono)">'+d.pct+'%</td><td>'+getRiscoBadge(d.cnt.nc)+'</td></tr>';
+  });
+  var totItems=totC2+totNC2+totNA2;
+  var pctTot=totItems>0?Math.round(totC2/totItems*100):100;
+  html+='<tr class="total"><td>Total Geral</td><td style="color:var(--green)">'+totC2+'</td><td style="color:var(--red)">'+totNC2+'</td><td>'+totNA2+'</td><td style="font-family:var(--mono)">'+pctTot+'%</td><td>'+getRiscoBadge(totNC2)+'</td></tr>';
+  html+='</tbody></table></div></div>';
+
+  // Ranking
+  html+='<div class="rel-section">';
+  html+='<div class="rel-section-title">🏆 Ranking dos Andares</div>';
+  html+='<div class="rel-section-body"><div class="ranking-list">';
+  ranking.slice(0,state.totalAndares).forEach(function(d,pos){
+    html+='<div class="ranking-item">';
+    html+='<div class="ranking-medal">'+getRankMedal(pos)+'</div>';
+    html+='<div class="ranking-info"><div class="ranking-name">Andar '+d.a+'</div>';
+    html+='<div class="ranking-pct">'+d.pct+'% conformidade</div></div>';
+    html+='<div class="ranking-bar-wrap"><div class="ranking-bar-fill" style="width:'+d.pct+'%"></div></div>';
+    html+='</div>';
+  });
+  html+='</div></div></div>';
+
+  // Não Conformidades
+  var ncList=[];
+  var lista2=state.andaresList||[];
+  for(var a2=0;a2<lista2.length;a2++){
+    var albl=isNaN(lista2[a2])?lista2[a2]:lista2[a2]+'º Andar';
+    for(var s=0;s<SECOES.length;s++){
+      for(var i=0;i<SECOES[s].itens.length;i++){
+        var v=state.respostas[chaveItem(a2,s,i)];
+        if(v==='nc'){
+          ncList.push({a:a2,label:albl,s:s,i:i,item:SECOES[s].itens[i],sec:SECOES[s].title,obs:state.obs[chaveObs(a2,s,i)]||'',fotos:state.fotos[chaveFoto(a2,s,i)]||[]});
+        }
+      }
+    }
+  }
+
+  if(ncList.length>0){
+    html+='<div class="rel-section">';
+    html+='<div class="rel-section-title" style="color:var(--red)">❌ Não Conformidades ('+ncList.length+')</div>';
+    html+='<div class="rel-section-body">';
+    ncList.forEach(function(nc){
+      html+='<div class="nc-item">';
+      html+='<div class="nc-item-header">'+nc.label+' — '+nc.sec+'</div>';
+      html+='<div class="nc-item-text">'+nc.item+'</div>';
+      if(nc.obs)html+='<div class="nc-item-obs">📝 '+nc.obs+'</div>';
+      if(nc.fotos.length>0){
+        html+='<div class="foto-ev-grid" style="margin-top:8px;">';
+        nc.fotos.forEach(function(src,idx){
+          html+='<div class="foto-ev-item"><img class="foto-ev-img" src="'+src+'"><div class="foto-ev-cap">Andar '+nc.a+' | '+nc.sec.substring(0,20)+'</div></div>';
+        });
+        html+='</div>';
+      }
+      html+='</div>';
+    });
+    html+='</div></div>';
+  }
+
+  // Resumo executivo
+  var melhor=ranking[0];
+  var mainNC=ncList.length>0?[...new Set(ncList.map(function(x){return x.sec;}))]:[]; 
+  var execText='Durante a auditoria foram avaliados '+(t.c+t.nc+t.na)+' itens distribuídos em '+(state.andaresList?state.andaresList.length:state.totalAndares)+' andar(es) da unidade '+state.unidade+'. O percentual geral de conformidade foi de '+pctGeral+'%.';
+  if(melhor)execText+=' O andar com melhor desempenho foi '+melhor.label+', apresentando '+melhor.pct+'% de conformidade.';
+  if(t.nc>0)execText+=' As principais oportunidades de melhoria foram identificadas em: '+mainNC.join(', ')+'.';
+  else execText+=' Nenhuma não conformidade foi identificada — a unidade apresenta excelente nível de conformidade.';
+
+  html+='<div class="rel-section">';
+  html+='<div class="rel-section-title">📄 Resumo Executivo</div>';
+  html+='<div class="rel-section-body"><div class="resumo-executivo">'+execText+'</div></div></div>';
+
+  // Evidências
+  var todasFotos=[];
+  var lista3=state.andaresList||[];
+  for(var a3=0;a3<lista3.length;a3++){
+    var flbl=isNaN(lista3[a3])?lista3[a3]:lista3[a3]+'º Andar';
+    for(var s2=0;s2<SECOES.length;s2++){
+      for(var i3=0;i3<SECOES[s2].itens.length;i3++){
+        var fk=chaveFoto(a3,s2,i3);
+        var fs=state.fotos[fk]||[];
+        fs.forEach(function(src){
+          todasFotos.push({src:src,label:flbl,sec:SECOES[s2].title,item:SECOES[s2].itens[i3],obs:state.obs[chaveObs(a3,s2,i3)]||''});
+        });
+      }
+    }
+  }
+  if(todasFotos.length>0){
+    html+='<div class="rel-section">';
+    html+='<div class="rel-section-title">📷 Anexo Fotográfico ('+todasFotos.length+')</div>';
+    html+='<div class="rel-section-body"><div class="foto-ev-grid">';
+    todasFotos.forEach(function(f){
+      html+='<div class="foto-ev-item"><img class="foto-ev-img" src="'+f.src+'"><div class="foto-ev-cap">Andar '+f.a+' | '+f.sec.substring(0,15)+' | '+f.item.substring(0,25)+'...</div></div>';
+    });
+    html+='</div></div></div>';
+  }
+
+  $('rel-body').innerHTML=html;
+}
+
+// ========== PDF ==========
+function gerarPDF(){
+  var t=contarTodos();
+  var pctGeral=t.total>0?Math.round(t.c/t.total*100):0;
+  var isDark=document.body.classList.contains('dark');
+
+  var andaresDados=[];
+  var lista=state.andaresList||[];
+  for(var idx=0;idx<lista.length;idx++){
+    var lbl=isNaN(lista[idx])?lista[idx]:lista[idx]+'º Andar';
+    var cnt=contarAndar(idx);
+    var pct=cnt.total>0?Math.round(cnt.c/cnt.total*100):100;
+    andaresDados.push({a:idx,label:lbl,cnt:cnt,pct:pct});
+  }
+  var ranking=[].concat(andaresDados).sort(function(x,y){return y.pct-x.pct;});
+  var melhor=ranking[0];
+
+  var ncList=[];
+  for(var a2=1;a2<=state.totalAndares;a2++){
+    for(var s=0;s<SECOES.length;s++){
+      for(var i=0;i<SECOES[s].itens.length;i++){
+        if(state.respostas[chaveItem(a2,s,i)]==='nc'){
+          ncList.push({a:a2,s:s,i:i,item:SECOES[s].itens[i],sec:SECOES[s].title,obs:state.obs[chaveObs(a2,s,i)]||'',fotos:state.fotos[chaveFoto(a2,s,i)]||[]});
+        }
+      }
+    }
+  }
+
+  var getRisco=function(nc){
+    if(nc===0)return'<span style="background:#F0FDF4;color:#16A34A;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid #BBF7D0;">🟢 Baixo Risco</span>';
+    if(nc<=3)return'<span style="background:#FFFBEB;color:#D97706;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid #FDE68A;">🟡 Atenção</span>';
+    if(nc<=6)return'<span style="background:#FFF7ED;color:#EA580C;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid #FED7AA;">🟠 Risco Moderado</span>';
+    return'<span style="background:#FEF2F2;color:#DC2626;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid #FECACA;">🔴 Risco Elevado</span>';
+  };
+
+  var mainNC=ncList.length>0?[...new Set(ncList.map(function(x){return x.sec;}))]:[]; 
+  var execText='Durante a auditoria foram avaliados '+(t.c+t.nc+t.na)+' itens distribuídos em '+(state.andaresList?state.andaresList.length:state.totalAndares)+' andar(es) da unidade '+state.unidade+'. O percentual geral de conformidade foi de '+pctGeral+'%.';
+  if(melhor)execText+=' O andar com melhor desempenho foi '+melhor.label+', apresentando '+melhor.pct+'% de conformidade.';
+  if(t.nc>0)execText+=' As principais oportunidades de melhoria foram identificadas em: '+mainNC.join(', ')+'.';
+  else execText+=' Nenhuma não conformidade foi identificada.';
+
+  var tabelaRows='';
+  var totC=0,totNC=0,totNA=0;
+  andaresDados.forEach(function(d){
+    totC+=d.cnt.c; totNC+=d.cnt.nc; totNA+=d.cnt.na;
+    tabelaRows+='<tr><td style="font-weight:700;">'+d.label+'</td><td style="color:#16A34A;font-weight:700;text-align:center;">'+d.cnt.c+'</td><td style="color:#DC2626;font-weight:700;text-align:center;">'+d.cnt.nc+'</td><td style="text-align:center;">'+d.cnt.na+'</td><td style="font-weight:700;text-align:center;">'+d.pct+'%</td><td>'+getRisco(d.cnt.nc)+'</td></tr>';
+  });
+  var totItems=totC+totNC+totNA;
+  var pctTot=totItems>0?Math.round(totC/totItems*100):100;
+  tabelaRows+='<tr style="background:#F0F4FF;font-weight:700;"><td>TOTAL GERAL</td><td style="color:#16A34A;text-align:center;">'+totC+'</td><td style="color:#DC2626;text-align:center;">'+totNC+'</td><td style="text-align:center;">'+totNA+'</td><td style="text-align:center;">'+pctTot+'%</td><td>'+getRisco(totNC)+'</td></tr>';
+
+  var ncHTML='';
+  ncList.forEach(function(nc){
+    ncHTML+='<div style="padding:12px;border-radius:8px;background:#FEF2F2;border:1px solid #FECACA;margin-bottom:8px;break-inside:avoid;">';
+    ncHTML+='<div style="font-size:11px;font-weight:700;color:#DC2626;margin-bottom:4px;">'+nc.label+' — '+nc.sec+'</div>';
+    ncHTML+='<div style="font-size:13px;color:#1a1a1a;margin-bottom:4px;">'+nc.item+'</div>';
+    if(nc.obs)ncHTML+='<div style="font-size:12px;color:#555;font-style:italic;">📝 '+nc.obs+'</div>';
+    if(nc.fotos.length>0){
+      ncHTML+='<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">';
+      nc.fotos.forEach(function(src){ncHTML+='<img src="'+src+'" style="width:80px;height:80px;object-fit:cover;border-radius:6px;border:1px solid #ddd;">';});
+      ncHTML+='</div>';
+    }
+    ncHTML+='</div>';
+  });
+
+  var rankHTML='';
+  var medals=['🥇','🥈','🥉'];
+  ranking.slice(0,3).forEach(function(d,pos){
+    rankHTML+='<div style="display:flex;align-items:center;gap:10px;padding:10px;background:#f5f5f5;border-radius:8px;margin-bottom:6px;">';
+    rankHTML+='<span style="font-size:20px;">'+medals[pos]+'</span>';
+    rankHTML+='<div style="flex:1"><div style="font-weight:700;font-size:13px;">Andar '+d.a+'</div>';
+    rankHTML+='<div style="font-size:11px;color:#666;">'+d.pct+'% conformidade</div></div>';
+    rankHTML+='<div style="width:80px;height:6px;background:#ddd;border-radius:3px;overflow:hidden;">';
+    rankHTML+='<div style="width:'+d.pct+'%;height:100%;background:linear-gradient(90deg,#16A34A,#22C55E);border-radius:3px;"></div></div>';
+    rankHTML+='</div>';
+  });
+
+  var todasFotos=[];
+  var listaP3=state.andaresList||[];
+  for(var a3=0;a3<listaP3.length;a3++){
+    var flbl=isNaN(listaP3[a3])?listaP3[a3]:listaP3[a3]+'º Andar';
+    for(var s2=0;s2<SECOES.length;s2++){
+      for(var i3=0;i3<SECOES[s2].itens.length;i3++){
+        (state.fotos[chaveFoto(a3,s2,i3)]||[]).forEach(function(src){
+          todasFotos.push({src:src,label:flbl,sec:SECOES[s2].title,item:SECOES[s2].itens[i3]});
+        });
+      }
+    }
+  }
+
+  var fotoAnexo='';
+  if(todasFotos.length>0){
+    fotoAnexo='<div style="break-before:page;"><h2 style="color:#1B3F72;border-bottom:2px solid #1B3F72;padding-bottom:8px;margin-bottom:16px;font-size:16px;">📷 ANEXO FOTOGRÁFICO</h2>';
+    fotoAnexo+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">';
+    todasFotos.forEach(function(f){
+      fotoAnexo+='<div style="border-radius:8px;overflow:hidden;border:1px solid #ddd;">';
+      fotoAnexo+='<img src="'+f.src+'" style="width:100%;aspect-ratio:1;object-fit:cover;display:block;">';
+      fotoAnexo+='<div style="padding:5px;font-size:9px;color:#666;background:#f5f5f5;line-height:1.3;">'+f.label+' | '+f.sec+'</div></div>';
+    });
+    fotoAnexo+='</div></div>';
+  }
+
+  var html='<!DOCTYPE html><html><head><meta charset="utf-8"><title>Auditoria '+state.unidade+'</title>';
+  html+='<style>body{font-family:Arial,sans-serif;margin:0;padding:0;color:#1a1a1a;font-size:13px;}';
+  html+='.page{padding:30px;max-width:800px;margin:0 auto;}';
+  html+='h1{font-size:22px;color:#fff;margin:0;}h2{font-size:15px;color:#1B3F72;border-bottom:2px solid #1B3F72;padding-bottom:6px;margin:20px 0 12px;}';
+  html+='.cover{background:linear-gradient(135deg,#1B3F72,#2E5FA3);padding:30px;color:#fff;margin-bottom:0;}';
+  html+='.cover-meta{display:flex;flex-wrap:wrap;gap:20px;margin-top:16px;}';
+  html+='.cover-item{background:rgba(255,255,255,0.15);padding:8px 14px;border-radius:8px;}';
+  html+='.cover-label{font-size:10px;opacity:.8;text-transform:uppercase;letter-spacing:.05em;}';
+  html+='.cover-val{font-size:15px;font-weight:700;margin-top:2px;}';
+  html+='.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}';
+  html+='.stat-box{padding:14px;border-radius:8px;text-align:center;border:1px solid #ddd;}';
+  html+='.stat-num{font-size:24px;font-weight:800;font-family:monospace;}';
+  html+='.stat-lbl{font-size:10px;font-weight:700;text-transform:uppercase;color:#666;margin-top:4px;}';
+  html+='table{width:100%;border-collapse:collapse;font-size:12px;}th{background:#1B3F72;color:#fff;padding:8px;text-align:left;font-size:11px;}td{padding:7px 8px;border-bottom:1px solid #e5e7eb;}@media print{.page{padding:20px;}body{font-size:12px;}}</style></head>';
+  html+='<body><div class="page">';
+  html+='<div class="cover"><h1>RELATÓRIO DE AUDITORIA</h1><div style="font-size:14px;opacity:.85;margin-top:4px;">Sistema de Qualidade e Segurança do Residente — BSL Saúde</div>';
+  html+='<div class="cover-meta">';
+  html+='<div class="cover-item"><div class="cover-label">Unidade</div><div class="cover-val">'+state.unidade+'</div></div>';
+  html+='<div class="cover-item"><div class="cover-label">Auditor</div><div class="cover-val">'+state.nome+'</div></div>';
+  html+='<div class="cover-item"><div class="cover-label">Data</div><div class="cover-val">'+new Date().toLocaleDateString('pt-BR')+'</div></div>';
+  html+='<div class="cover-item"><div class="cover-label">Andares</div><div class="cover-val">'+(state.andaresList?state.andaresList.length:state.totalAndares)+'</div></div>';
+  html+='</div></div>';
+  html+='<h2>📊 Resumo Geral</h2>';
+  html+='<div class="stats">';
+  html+='<div class="stat-box" style="background:#F0FDF4;border-color:#BBF7D0"><div class="stat-num" style="color:#16A34A">'+t.c+'</div><div class="stat-lbl">✅ Conformes</div></div>';
+  html+='<div class="stat-box" style="background:#FEF2F2;border-color:#FECACA"><div class="stat-num" style="color:#DC2626">'+t.nc+'</div><div class="stat-lbl">❌ Não Conf.</div></div>';
+  html+='<div class="stat-box" style="background:#F5F5F5"><div class="stat-num" style="color:#666">'+t.na+'</div><div class="stat-lbl">⚪ Parcial Conforme</div></div>';
+  html+='<div class="stat-box" style="background:#EFF6FF;border-color:#BFDBFE"><div class="stat-num" style="color:#2563EB">'+pctGeral+'%</div><div class="stat-lbl">% Conformidade</div></div>';
+  html+='</div>';
+  html+=getRisco(t.nc);
+  html+='<h2>📋 Tabela Comparativa dos Andares</h2>';
+  html+='<table><thead><tr><th>Andar</th><th>✅ Conf.</th><th>❌ Não Conf.</th><th>⚪ Parcial Conforme</th><th>% Conf.</th><th>Risco</th></tr></thead><tbody>'+tabelaRows+'</tbody></table>';
+  html+='<h2>🏆 Ranking dos Andares</h2>'+rankHTML;
+  if(ncList.length>0){html+='<h2 style="color:#DC2626">❌ Não Conformidades Identificadas</h2>'+ncHTML;}
+  html+='<h2>📄 Resumo Executivo</h2>';
+  html+='<div style="padding:16px;background:#F0F4FF;border-radius:8px;border-left:4px solid #1B3F72;line-height:1.7;font-size:13px;">'+execText+'</div>';
+  html+=fotoAnexo;
+  html+='<div style="margin-top:30px;padding-top:12px;border-top:1px solid #eee;text-align:center;font-size:10px;color:#999;">BSL Saúde — Sistema de Auditoria de Qualidade e Segurança do Residente | '+new Date().toLocaleDateString('pt-BR')+'</div>';
+  html+='</div></body></html>';
+
+  var w=window.open();
+  if(w){w.document.write(html);w.document.close();setTimeout(function(){w.print();},600);}
+  return false;
+}
+</script>
+</body>
+</html>
