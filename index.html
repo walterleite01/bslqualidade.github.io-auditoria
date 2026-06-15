@@ -20,6 +20,7 @@
   --red:#DC2626;--red-bg:#FEF2F2;--red-border:#FECACA;
   --yellow:#D97706;--yellow-bg:#FFFBEB;--yellow-border:#FDE68A;
   --orange:#EA580C;--orange-bg:#FFF7ED;--orange-border:#FED7AA;
+  --gray:#6B7280;--gray-bg:#F3F4F6;--gray-border:#E5E7EB;
   --shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 16px rgba(0,0,0,0.05);
   --shadow-lg:0 4px 24px rgba(0,0,0,0.1),0 1px 4px rgba(0,0,0,0.06);
   --radius:12px;--radius-sm:8px;--radius-lg:16px;
@@ -36,6 +37,7 @@
   --red-bg:#450A0A;--red-border:#991B1B;
   --yellow-bg:#2D1A00;--yellow-border:#92400E;
   --orange-bg:#2D1200;--orange-border:#9A3412;
+  --gray:#9CA3AF;--gray-bg:#1C2940;--gray-border:#2E4060;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{width:100%;min-height:100%;-webkit-text-size-adjust:100%;}
@@ -53,6 +55,37 @@ body{
   min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:24px 16px;background:linear-gradient(160deg,var(--bg) 0%,var(--bg2) 100%);
 }
+.recovery-banner{
+  width:100%;max-width:420px;display:flex;align-items:center;gap:12px;
+  background:var(--yellow-bg);border:1.5px solid var(--yellow-border);border-radius:12px;
+  padding:14px 16px;margin-bottom:20px;box-shadow:var(--shadow);
+}
+.recovery-icon{font-size:26px;flex-shrink:0;}
+.recovery-text{flex:1;min-width:0;}
+.recovery-title{font-size:13px;font-weight:800;color:var(--yellow);}
+.recovery-sub{font-size:11.5px;color:var(--text2);margin-top:2px;}
+.recovery-btns{display:flex;flex-direction:column;gap:6px;flex-shrink:0;}
+.recovery-btn{border:none;border-radius:8px;padding:7px 12px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;}
+.recovery-continue{background:var(--primary);color:#fff;}
+.recovery-discard{background:var(--surface2);color:var(--text2);border:1px solid var(--border2);}
+@media(max-width:380px){.recovery-banner{flex-direction:column;text-align:center;}.recovery-btns{flex-direction:row;width:100%;}.recovery-btn{flex:1;}}
+
+/* ===== INDICADOR DE SALVAMENTO ===== */
+.save-indicator{
+  position:fixed;top:10px;right:10px;z-index:999;
+  background:var(--surface);border:1px solid var(--border);border-radius:30px;
+  padding:6px 14px;font-size:11px;font-weight:700;color:var(--text2);
+  box-shadow:var(--shadow);display:flex;align-items:center;gap:6px;
+  opacity:0;transform:translateY(-8px);transition:opacity .25s,transform .25s;
+  pointer-events:none;
+}
+.save-indicator.show{opacity:1;transform:none;}
+.save-indicator.saving{color:var(--accent);}
+.save-indicator.saved{color:var(--green);}
+.save-indicator .dot{width:7px;height:7px;border-radius:50%;background:currentColor;}
+.save-indicator.saving .dot{animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
 .logo-box{text-align:center;margin-bottom:32px;}
 .logo-badge{
   display:inline-flex;align-items:center;gap:10px;
@@ -234,7 +267,7 @@ select.form-input{
 }
 .item-text{font-size:14px;font-weight:500;color:var(--text);line-height:1.5;flex:1;}
 
-.opcoes-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:0;}
+.opcoes-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:0;}
 .opcao-btn{
   padding:9px 6px;border-radius:8px;border:1.5px solid var(--border);
   background:var(--surface);font-size:11px;font-weight:700;
@@ -245,7 +278,8 @@ select.form-input{
 .opcao-btn:active{transform:scale(.96);}
 .opcao-btn.conf.sel{background:var(--green-bg);border-color:var(--green);color:var(--green);box-shadow:0 2px 8px rgba(22,163,74,0.15);}
 .opcao-btn.nc.sel{background:var(--red-bg);border-color:var(--red);color:var(--red);box-shadow:0 2px 8px rgba(220,38,38,0.15);}
-.opcao-btn.na.sel{background:var(--bg2);border-color:var(--border2);color:var(--text2);}
+.opcao-btn.na.sel{background:var(--yellow-bg);border-color:var(--yellow);color:var(--yellow);box-shadow:0 2px 8px rgba(217,119,6,0.15);}
+.opcao-btn.nap.sel{background:var(--bg2);border-color:var(--border2);color:var(--text2);}
 
 /* CAMPOS EXTRAS */
 .extras{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
@@ -338,7 +372,7 @@ select.form-input{
 }
 .rel-section-body{padding:16px;}
 .rel-stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
-@media(min-width:480px){.rel-stats-grid{grid-template-columns:repeat(4,1fr);}}
+@media(min-width:480px){.rel-stats-grid{grid-template-columns:repeat(5,1fr);}}
 .rel-stat{text-align:center;padding:14px;background:var(--surface2);border-radius:10px;border:1px solid var(--border);}
 .rel-stat .rn{font-size:26px;font-weight:800;font-family:var(--mono);}
 .rel-stat .rl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;}
@@ -473,19 +507,23 @@ select.form-input{
 .rel-item.conf{background:var(--green-bg);border-color:var(--green-border);}
 .rel-item.parc{background:var(--yellow-bg);border-color:var(--yellow-border);}
 .rel-item.nc-r{background:var(--red-bg);border-color:var(--red-border);}
+.rel-item.na-r{background:var(--gray-bg);border-color:var(--gray-border);}
+.rel-item.sem-resp{background:var(--orange-bg);border-color:var(--orange-border);}
 .rel-item-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
 .rel-item-body{flex:1;}
 .rel-item-title{font-size:12px;font-weight:700;margin-bottom:2px;}
 .rel-item-title.conf{color:var(--green);}
 .rel-item-title.parc{color:var(--yellow);}
 .rel-item-title.nc-r{color:var(--red);}
+.rel-item-title.na-r{color:var(--gray);}
+.rel-item-title.sem-resp{color:var(--orange);}
 .rel-item-text{font-size:12px;color:var(--text2);line-height:1.45;}
 .rel-item-obs{font-size:11px;color:var(--text3);font-style:italic;margin-top:4px;}
 .rel-sec-group{margin-bottom:14px;}
 .rel-sec-group-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;padding:6px 10px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--primary-light);}
 @media(min-width:640px){
   .dashboard{grid-template-columns:repeat(7,1fr);}
-  .opcoes-row{grid-template-columns:auto auto auto;justify-content:start;}
+  .opcoes-row{grid-template-columns:1fr 1fr;justify-content:start;}
   .opcao-btn{padding:9px 20px;}
 }
 @media print{
@@ -497,11 +535,23 @@ select.form-input{
 </head>
 <body>
 
+<div class="save-indicator" id="save-indicator"><span class="dot"></span><span id="save-indicator-text">Salvo</span></div>
 <button class="dark-toggle" ontouchstart="" onclick="toggleDark();return false;" id="darkBtn">🌙 Escuro</button>
 
 <!-- ===== TELA INÍCIO ===== -->
 <div id="tela-inicio" class="tela ativa">
   <div class="inicio-wrap">
+    <div class="recovery-banner" id="recovery-banner" style="display:none;">
+      <div class="recovery-icon">💾</div>
+      <div class="recovery-text">
+        <div class="recovery-title">Auditoria em andamento encontrada</div>
+        <div class="recovery-sub" id="recovery-sub"></div>
+      </div>
+      <div class="recovery-btns">
+        <button type="button" class="recovery-btn recovery-continue" onclick="return continuarAuditoriaSalva();" ontouchstart="">▶️ Continuar</button>
+        <button type="button" class="recovery-btn recovery-discard" onclick="return descartarAuditoriaSalva();" ontouchstart="">🗑️ Descartar</button>
+      </div>
+    </div>
     <div class="logo-box">
       <div class="logo-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -625,23 +675,22 @@ select.form-input{
 var SECOES = [
   {id:'med', icon:'💊', title:'Medicamentos', color:'#16A34A',
    itens:[
-    'O carrinho de medicamentos permanece trancado e sem a chave acoplada à fechadura?',
-    'Há ausência de medicamentos multidose sem identificação adequada?',
-    'Os medicamentos multidose possuem identificação e validade registradas corretamente?',
-    'Há ausência de medicamentos multidose com prazo de validade vencido?'
+    'Carrinho de medicamentos trancado e sem chave acoplada.',
+    'Multidoses com etiquetas de identificação adequadas.',
+    'Multidoses com data de abertura e validade devidamente preenchidas.',
+    'Multidoses dentro do prazo de validade.'
    ]},
   {id:'esp', icon:'💧', title:'Hidratação com Espessante', color:'#0EA5E9',
    itens:[
-    'A equipe identifica corretamente os residentes que utilizam espessante?',
-    'A equipe conhece a consistência prescrita (néctar, mel ou pudim) para cada residente?',
-    'As orientações sobre uso e consistência do espessante estão registradas na PM?'
+    'A equipe possui conhecimento sobre os residentes que utilizam espessante.',
+    'A equipe possui conhecimento sobre a consistência prescrita para cada residente (néctar, mel ou pudim).',
+    'As orientações sobre a consistência do espessante estão registradas na PM.'
    ]},
-  {id:'pac', icon:'👥', title:'Conferência de 5 Residentes', color:'#8B5CF6',
+  {id:'pac', icon:'👥', title:'Conferência dos Residentes', color:'#8B5CF6',
    itens:[
-    'Os medicamentos administrados conferem com a prescrição médica vigente?',
-    'As administrações de medicamentos estão registradas corretamente no IW (data, horário e responsável)?',
-    'Em casos de recusa, há registro adequado e identificado no sistema?',
-    'Os registros de sinais vitais e eliminações estão atualizados e lançados no IW?'
+    'Os medicamentos conferem com a PM vigente.',
+    'Os medicamentos administrados estão devidamente registrados no sistema IW (data, horário e responsável).',
+    'Os sinais vitais e as eliminações estão devidamente registrados no sistema IW.'
    ]}
 ];
 var TOTAL_ITENS = SECOES.reduce(function(a,s){return a+s.itens.length;},0);
@@ -718,8 +767,10 @@ function iniciarAuditoria(){
   state.totalAndares = state.andaresList.length;
   state.andarAtual=0; state.andarAberto=0;
   state.inicio=new Date(); state.respostas={}; state.obs={}; state.fotos={}; state.obsSecao={};
+  limparLocal();
   renderAuditoria();
   trocarTela('tela-auditoria');
+  marcarSujo();
   return false;
 }
 
@@ -822,7 +873,7 @@ function renderChecklist(a){
     var osVal=state.obsSecao[osKey]||'';
     html+='<div class="secao-obs-wrap">';
     html+='<div class="secao-obs-label">📝 Observações Gerais — '+sec.title+'</div>';
-    html+='<textarea class="obs-textarea" style="min-height:60px;" placeholder="Observações gerais desta seção..." oninput="state.obsSecao[\''+osKey+'\']=this.value;" id="os_'+a+'_'+s+'">'+osVal+'</textarea>';
+    html+='<textarea class="obs-textarea" style="min-height:60px;" placeholder="Observações gerais desta seção..." oninput="state.obsSecao[\''+osKey+'\']=this.value;marcarSujo();" id="os_'+a+'_'+s+'">'+osVal+'</textarea>';
     html+='</div></div></div>';
   }
   body.innerHTML=html;
@@ -844,9 +895,10 @@ function renderItem(a,s,i,texto){
   html+='<button type="button" class="opcao-btn conf'+(val==='conf'?' sel':'')+'" ontouchstart="" onclick="return selResp('+a+','+s+','+i+',\'conf\',this);">✅ Conforme</button>';
   html+='<button type="button" class="opcao-btn nc'+(val==='nc'?' sel':'')+'" ontouchstart="" onclick="return selResp('+a+','+s+','+i+',\'nc\',this);">❌ Não Conforme</button>';
   html+='<button type="button" class="opcao-btn na'+(val==='parc'?' sel':'')+'" ontouchstart="" onclick="return selResp('+a+','+s+','+i+',\'parc\',this);">🟡 Parcial Conforme</button>';
+  html+='<button type="button" class="opcao-btn nap'+(val==='na'?' sel':'')+'" ontouchstart="" onclick="return selResp('+a+','+s+','+i+',\'na\',this);">⚪ Não Aplicável</button>';
   html+='</div>';
   html+='<div class="extras" id="ext_'+a+'_'+s+'_'+i+'" style="'+(val===''?'display:none':'')+'">';
-  html+='<textarea class="obs-textarea'+(isNC?' obrigatorio':'')+'" placeholder="Observações sobre este item (mín. 500 caracteres se Não Conforme)..." oninput="state.obs[\''+ok+'\']=this.value;updateCharCount(\'cc_'+a+'_'+s+'_'+i+'\',this.value);" id="obs_'+a+'_'+s+'_'+i+'">'+obsVal+'</textarea>';
+  html+='<textarea class="obs-textarea'+(isNC?' obrigatorio':'')+'" placeholder="Observações sobre este item (mín. 500 caracteres se Não Conforme)..." oninput="state.obs[\''+ok+'\']=this.value;updateCharCount(\'cc_'+a+'_'+s+'_'+i+'\',this.value);marcarSujo();" id="obs_'+a+'_'+s+'_'+i+'">'+obsVal+'</textarea>';
   html+='<div class="char-count" id="cc_'+a+'_'+s+'_'+i+'">'+obsVal.length+' / 500 min.</div>';
   html+='<div class="foto-area'+(isNC?' obrigatorio':'')+'">';
   html+='<div class="foto-label-row"><div class="foto-label">📷 Evidências Fotográficas</div>';
@@ -897,9 +949,9 @@ function selResp(a,s,i,val,btn){
   if(fotoEl)fotoEl.className='foto-area'+(val==='nc'?' obrigatorio':'');
   atualizarDashboard();
   // Remover destaque de pendente quando item é respondido
-  var itemEl2=document.getElementById('item_'+andar+'_'+s+'_'+i);
+  var itemEl2=document.getElementById('item_'+a+'_'+s+'_'+i);
   if(itemEl2&&val)itemEl2.classList.remove('item-pendente');
-  salvarLocal();
+  marcarSujo();
   return false;
 }
 
@@ -918,7 +970,7 @@ function addFotos(a,s,i,input){
         if(fp)fp.innerHTML=renderFotos(state.fotos[fk],a,s,i);
         var el=$('item_'+a+'_'+s+'_'+i);
         if(el){var fc=el.querySelector('.foto-count');if(fc)fc.textContent=state.fotos[fk].length+' foto(s)';}
-        salvarLocal();
+        marcarSujo();
       }
     };
     r.readAsDataURL(f);
@@ -933,7 +985,7 @@ function delFoto(a,s,i,idx){
   if(fp)fp.innerHTML=renderFotos(state.fotos[fk]||[],a,s,i);
   var el=$('item_'+a+'_'+s+'_'+i);
   if(el){var fc=el.querySelector('.foto-count');if(fc)fc.textContent=(state.fotos[fk]||[]).length+' foto(s)';}
-  salvarLocal();
+  marcarSujo();
   return false;
 }
 
@@ -960,7 +1012,9 @@ function navAndar(dir){
 }
 
 function voltarInicio(){
-  if(confirm('Voltar ao início? O progresso não salvo será perdido.'))trocarTela('tela-inicio');
+  salvarObsAtual();
+  salvarLocal();
+  if(confirm('Voltar ao início? Seu progresso foi salvo e poderá ser recuperado depois.'))trocarTela('tela-inicio');
   return false;
 }
 
@@ -968,41 +1022,43 @@ function voltarAuditoria(){trocarTela('tela-auditoria');return false;}
 
 // ========== DASHBOARD ==========
 function contarTodos(){
-  var c=0,nc=0,na=0;
+  var c=0,nc=0,na=0,nap=0;
   for(var a=0;a<state.totalAndares;a++){
     for(var s=0;s<SECOES.length;s++){
       for(var i=0;i<SECOES[s].itens.length;i++){
         var v=state.respostas[chaveItem(a,s,i)]||'';
-        if(v==='conf')c++;else if(v==='nc')nc++;else if(v==='parc')na++;
+        if(v==='conf')c++;else if(v==='nc')nc++;else if(v==='parc')na++;else if(v==='na')nap++;
       }
     }
   }
-  return{c:c,nc:nc,na:na,total:c+nc+na};
+  // 'total' é a base do percentual de conformidade — N/A não entra no cálculo
+  return{c:c,nc:nc,na:na,nap:nap,total:c+nc+na};
 }
 
 function contarAndar(a){
-  var c=0,nc=0,na=0;
+  var c=0,nc=0,na=0,nap=0;
   for(var s=0;s<SECOES.length;s++){
     for(var i=0;i<SECOES[s].itens.length;i++){
       var v=state.respostas[chaveItem(a,s,i)]||'';
-      if(v==='conf')c++;else if(v==='nc')nc++;else if(v==='parc')na++;
+      if(v==='conf')c++;else if(v==='nc')nc++;else if(v==='parc')na++;else if(v==='na')nap++;
     }
   }
-  return{c:c,nc:nc,na:na,total:c+nc+na};
+  return{c:c,nc:nc,na:na,nap:nap,total:c+nc+na};
 }
 
 function atualizarDashboard(){
   var t=contarTodos();
   var total=(state.andaresList?state.andaresList.length:state.totalAndares)*TOTAL_ITENS;
+  var respondidos=t.total+t.nap; // N/A conta como respondido, mas não entra no % de conformidade
   $('d-total').textContent=t.total;
   $('d-conf').textContent=t.c;
   $('d-nc').textContent=t.nc;
   var pct=t.total>0?Math.round(t.c/(t.total)*100):0;
   $('d-pct').textContent=t.total>0?pct+'%':'—';
-  var prog=Math.round(t.total/total*100);
+  var prog=Math.round(respondidos/total*100);
   $('prog-fill').style.width=prog+'%';
   $('prog-txt').textContent=prog+'% preenchido';
-  $('prog-itens').textContent=t.total+'/'+total;
+  $('prog-itens').textContent=respondidos+'/'+total;
   var rb=$('risco-bar');
   rb.className='risco-bar ';
   if(t.nc===0){rb.classList.add('risco-verde');$('risco-txt').textContent='🟢 Baixo Risco — Nenhuma não conformidade';}
@@ -1011,17 +1067,192 @@ function atualizarDashboard(){
   else{rb.classList.add('risco-vermelho');$('risco-txt').textContent='🔴 Risco Elevado — '+t.nc+' não conformidades';}
 }
 
-// ========== SAVE LOCAL ==========
+// ========== SAVE LOCAL (AUTO-SAVE) ==========
+var STORAGE_KEY='bsl_auditoria_v2';
+var _dirty=false;       // há alterações não salvas?
+var _saveTimer=null;     // debounce de salvamento
+
+function marcarSujo(){
+  _dirty=true;
+  showSaveIndicator('saving','Salvando...');
+  if(_saveTimer)clearTimeout(_saveTimer);
+  _saveTimer=setTimeout(function(){salvarLocal();},600);
+}
+
+function showSaveIndicator(cls,text){
+  var el=$('save-indicator');
+  if(!el)return;
+  el.className='save-indicator show '+cls;
+  $('save-indicator-text').textContent=text;
+  if(cls==='saved'){
+    setTimeout(function(){el.classList.remove('show');},2500);
+  }
+}
+
+// ---- IndexedDB para fotos (suporta centenas de MB, ao contrário do localStorage) ----
+var IDB_NAME='bsl_auditoria_fotos';
+var IDB_STORE='fotos';
+var _idbPromise=null;
+
+function idbOpen(){
+  if(_idbPromise)return _idbPromise;
+  _idbPromise=new Promise(function(resolve,reject){
+    if(!window.indexedDB){reject(new Error('IndexedDB não suportado'));return;}
+    var req=indexedDB.open(IDB_NAME,1);
+    req.onupgradeneeded=function(e){
+      var db=e.target.result;
+      if(!db.objectStoreNames.contains(IDB_STORE))db.createObjectStore(IDB_STORE);
+    };
+    req.onsuccess=function(e){resolve(e.target.result);};
+    req.onerror=function(e){reject(e.target.error);};
+  });
+  return _idbPromise;
+}
+
+function idbSaveFotos(fotosObj){
+  return idbOpen().then(function(db){
+    return new Promise(function(resolve,reject){
+      var tx=db.transaction(IDB_STORE,'readwrite');
+      var store=tx.objectStore(IDB_STORE);
+      store.put(fotosObj,'current');
+      tx.oncomplete=function(){resolve();};
+      tx.onerror=function(e){reject(e.target.error);};
+    });
+  });
+}
+
+function idbLoadFotos(){
+  return idbOpen().then(function(db){
+    return new Promise(function(resolve,reject){
+      var tx=db.transaction(IDB_STORE,'readonly');
+      var store=tx.objectStore(IDB_STORE);
+      var req=store.get('current');
+      req.onsuccess=function(){resolve(req.result||{});};
+      req.onerror=function(e){reject(e.target.error);};
+    });
+  });
+}
+
+function idbClearFotos(){
+  return idbOpen().then(function(db){
+    return new Promise(function(resolve,reject){
+      var tx=db.transaction(IDB_STORE,'readwrite');
+      var store=tx.objectStore(IDB_STORE);
+      store.delete('current');
+      tx.oncomplete=function(){resolve();};
+      tx.onerror=function(e){reject(e.target.error);};
+    });
+  }).catch(function(){});
+}
+
 function salvarLocal(){
   try{
-    var data={state:JSON.parse(JSON.stringify(state))};
-    // Não salvar fotos no localStorage (muito pesado)
+    var data={
+      savedAt:new Date().toISOString(),
+      tela:document.querySelector('.tela.ativa')?document.querySelector('.tela.ativa').id:'tela-auditoria',
+      andaresLista:andaresLista,
+      state:JSON.parse(JSON.stringify(state))
+    };
+    // Fotos não vão no localStorage (cota pequena); contagem para exibir no banner
+    var fotosObj=data.state.fotos||{};
+    var fotoCount=0;
+    Object.keys(fotosObj).forEach(function(k){fotoCount+=(fotosObj[k]||[]).length;});
+    data.fotoCount=fotoCount;
     data.state.fotos={};
-    localStorage.setItem('bsl_auditoria',JSON.stringify(data));
-    $('ah-sub').textContent='Auditor: '+state.nome+' | Salvo ✓';
-    setTimeout(function(){if($('ah-sub'))$('ah-sub').textContent='Auditor: '+state.nome+' | '+new Date().toLocaleDateString('pt-BR');},2000);
-  }catch(e){}
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+    _dirty=false;
+    var hora=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    // Fotos salvas em paralelo no IndexedDB (assíncrono, sem bloquear)
+    idbSaveFotos(fotosObj).then(function(){
+      showSaveIndicator('saved','Salvo automaticamente às '+hora);
+    }).catch(function(){
+      showSaveIndicator('saved','Salvo às '+hora+' (fotos podem não ter sido salvas)');
+    });
+  }catch(e){
+    showSaveIndicator('saving','Erro ao salvar (espaço insuficiente)');
+  }
 }
+
+function carregarLocal(){
+  try{
+    var raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw)return null;
+    return JSON.parse(raw);
+  }catch(e){return null;}
+}
+
+function limparLocal(){
+  try{localStorage.removeItem(STORAGE_KEY);}catch(e){}
+  idbClearFotos();
+  _dirty=false;
+}
+
+// ---- Recuperação ao abrir o app ----
+function verificarRecuperacao(){
+  var data=carregarLocal();
+  if(!data||!data.state||!data.state.nome)return;
+  // Já está em andamento? Não mostrar banner.
+  var banner=$('recovery-banner');
+  if(!banner)return;
+  var savedDate=data.savedAt?new Date(data.savedAt):null;
+  var dataStr=savedDate?savedDate.toLocaleDateString('pt-BR')+' às '+savedDate.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'';
+  var t={c:0,nc:0,na:0,nap:0,total:0};
+  try{
+    var tempState=state; state=data.state;
+    t=contarTodos();
+    state=tempState;
+  }catch(e){}
+  var resp=t.total+t.nap;
+  var baseTxt=(data.state.unidade||'')+' — '+(data.state.nome||'')+' — '+resp+' item(ns) preenchido(s)'+(dataStr?' — salvo em '+dataStr:'');
+  $('recovery-sub').textContent=baseTxt+(data.fotoCount?' · 📷 '+data.fotoCount+' foto(s)':'');
+  banner.style.display='flex';
+}
+
+function continuarAuditoriaSalva(){
+  var data=carregarLocal();
+  if(!data||!data.state)return false;
+  state=data.state;
+  andaresLista=(data.andaresLista||state.andaresList||[]).slice();
+  // Garantir campos novos existentes
+  if(!state.fotos)state.fotos={};
+  if(!state.obsSecao)state.obsSecao={};
+  if(!state.secaoColapsada)state.secaoColapsada={};
+  if(state.inicio)state.inicio=new Date(state.inicio);
+  // Restaurar fotos do IndexedDB (assíncrono)
+  idbLoadFotos().then(function(fotosObj){
+    state.fotos=fotosObj||{};
+    renderAuditoria();
+  }).catch(function(){
+    renderAuditoria();
+  });
+  trocarTela('tela-auditoria');
+  $('recovery-banner').style.display='none';
+  return false;
+}
+
+function descartarAuditoriaSalva(){
+  if(!confirm('Descartar a auditoria salva? Esta ação não pode ser desfeita.'))return false;
+  limparLocal();
+  $('recovery-banner').style.display='none';
+  return false;
+}
+
+// ---- Avisar antes de saída com dados não salvos ----
+window.addEventListener('beforeunload',function(e){
+  if(_dirty){
+    e.preventDefault();
+    e.returnValue='A auditoria possui dados não salvos. Deseja realmente sair desta página?';
+    return e.returnValue;
+  }
+});
+
+// ---- Salvamento periódico a cada 30s ----
+setInterval(function(){
+  if(_dirty)salvarLocal();
+}, 30000);
+
+// ---- Verificar recuperação ao carregar ----
+verificarRecuperacao();
 
 // ========== PENDENTES ==========
 function contarPendentesAndar(idx){
@@ -1096,6 +1327,8 @@ function novaAuditoria(){
   if(confirm('Iniciar nova auditoria? Todos os dados serão perdidos.')){
     state={nome:'',unidade:'',totalAndares:0,andarAtual:1,andarAberto:1,inicio:new Date(),respostas:{},obs:{},fotos:{},obsSecao:{},secaoColapsada:{},salvo:false};
     $('inp-nome').value=''; $('inp-unidade').value=''; andaresLista=[]; renderTags();
+    limparLocal();
+    $('recovery-banner').style.display='none';
     trocarTela('tela-inicio');
   }
   return false;
@@ -1170,6 +1403,7 @@ function gerarRelatorio(){
   html+='<div class="rel-stat gc"><div class="rn">'+t.c+'</div><div class="rl">✅ Conformes</div></div>';
   html+='<div class="rel-stat" style="background:var(--yellow-bg);border:1px solid var(--yellow-border);"><div class="rn" style="color:var(--yellow)">'+t.na+'</div><div class="rl" style="color:var(--yellow)">🟡 Parcial Conf.</div></div>';
   html+='<div class="rel-stat rc"><div class="rn">'+t.nc+'</div><div class="rl">❌ Não Conf.</div></div>';
+  html+='<div class="rel-stat" style="background:var(--gray-bg);border:1px solid var(--gray-border);"><div class="rn" style="color:var(--gray)">'+t.nap+'</div><div class="rl" style="color:var(--gray)">⚪ Não Aplicável</div></div>';
   html+='<div class="rel-stat pc"><div class="rn">'+pctGeral+'%</div><div class="rl">% Conformidade</div></div>';
   html+='</div>';
   if(totalPend>0){
@@ -1243,7 +1477,8 @@ function gerarRelatorio(){
         if(v==='conf'){icon2='✅';cls2='conf';label2='Conforme';}
         else if(v==='parc'){icon2='🟡';cls2='parc';label2='Parcial Conforme';}
         else if(v==='nc'){icon2='❌';cls2='nc-r';label2='Não Conforme';}
-        else{icon2='⚪';cls2='parc';label2='Sem resposta';}
+        else if(v==='na'){icon2='⚪';cls2='na-r';label2='Não Aplicável';}
+        else{icon2='⚠';cls2='sem-resp';label2='Sem resposta';}
 
         html+='<div class="rel-item '+cls2+'">';
         html+='<div class="rel-item-icon">'+icon2+'</div>';
@@ -1459,11 +1694,12 @@ function gerarPDF(){
   body+='<div><span style="font-size:10px;color:#888;text-transform:uppercase;font-weight:700;">Data/Hora</span><div style="font-weight:600;margin-top:2px;font-size:13px;">'+dh+'</div></div>';
   body+='<div><span style="font-size:10px;color:#888;text-transform:uppercase;font-weight:700;">Andares Auditados</span><div style="font-weight:600;margin-top:2px;font-size:13px;">'+(state.andaresList?state.andaresList.length:state.totalAndares)+'</div></div>';
   body+='</div>';
-  body+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">';
-  body+='<div style="text-align:center;padding:12px 8px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;"><div style="font-size:22px;font-weight:800;color:#16A34A;">'+t.c+'</div><div style="font-size:9px;font-weight:700;color:#166534;text-transform:uppercase;margin-top:3px;">✅ Conformes</div></div>';
-  body+='<div style="text-align:center;padding:12px 8px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;"><div style="font-size:22px;font-weight:800;color:#D97706;">'+t.na+'</div><div style="font-size:9px;font-weight:700;color:#92400E;text-transform:uppercase;margin-top:3px;">🟡 Parcial Conf.</div></div>';
-  body+='<div style="text-align:center;padding:12px 8px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;"><div style="font-size:22px;font-weight:800;color:#DC2626;">'+t.nc+'</div><div style="font-size:9px;font-weight:700;color:#991B1B;text-transform:uppercase;margin-top:3px;">❌ Não Conf.</div></div>';
-  body+='<div style="text-align:center;padding:12px 8px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;"><div style="font-size:22px;font-weight:800;color:#2563EB;">'+pctGeral+'%</div><div style="font-size:9px;font-weight:700;color:#1D4ED8;text-transform:uppercase;margin-top:3px;">% Conformidade</div></div>';
+  body+='<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px;">';
+  body+='<div style="text-align:center;padding:12px 6px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;"><div style="font-size:20px;font-weight:800;color:#16A34A;">'+t.c+'</div><div style="font-size:8.5px;font-weight:700;color:#166534;text-transform:uppercase;margin-top:3px;">✅ Conformes</div></div>';
+  body+='<div style="text-align:center;padding:12px 6px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;"><div style="font-size:20px;font-weight:800;color:#D97706;">'+t.na+'</div><div style="font-size:8.5px;font-weight:700;color:#92400E;text-transform:uppercase;margin-top:3px;">🟡 Parcial Conf.</div></div>';
+  body+='<div style="text-align:center;padding:12px 6px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;"><div style="font-size:20px;font-weight:800;color:#DC2626;">'+t.nc+'</div><div style="font-size:8.5px;font-weight:700;color:#991B1B;text-transform:uppercase;margin-top:3px;">❌ Não Conf.</div></div>';
+  body+='<div style="text-align:center;padding:12px 6px;background:#F3F4F6;border:1px solid #E5E7EB;border-radius:8px;"><div style="font-size:20px;font-weight:800;color:#6B7280;">'+t.nap+'</div><div style="font-size:8.5px;font-weight:700;color:#4B5563;text-transform:uppercase;margin-top:3px;">⚪ N/Aplicável</div></div>';
+  body+='<div style="text-align:center;padding:12px 6px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;"><div style="font-size:20px;font-weight:800;color:#2563EB;">'+pctGeral+'%</div><div style="font-size:8.5px;font-weight:700;color:#1D4ED8;text-transform:uppercase;margin-top:3px;">% Conformidade</div></div>';
   body+='</div>';
   if(totalPendP>0)body+='<div style="padding:8px 12px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:6px;font-size:12px;color:#EA580C;font-weight:700;margin-bottom:10px;">⚠️ '+totalPendP+' pergunta(s) sem resposta</div>';
   body+=getRisco(t.nc);
@@ -1551,7 +1787,8 @@ function gerarPDF(){
         if(vv==='conf'){rowBg='#F0FDF4';rowColor='#166534';rowIcon='✅';rowBorder='#BBF7D0';}
         else if(vv==='parc'){rowBg='#FFFBEB';rowColor='#92400E';rowIcon='🟡';rowBorder='#FDE68A';}
         else if(vv==='nc'){rowBg='#FEF2F2';rowColor='#991B1B';rowIcon='❌';rowBorder='#FECACA';}
-        else{rowBg='#F9FAFB';rowColor='#6B7280';rowIcon='⚪';rowBorder='#E5E7EB';}
+        else if(vv==='na'){rowBg='#F3F4F6';rowColor='#4B5563';rowIcon='⚪';rowBorder='#E5E7EB';}
+        else{rowBg='#FFF7ED';rowColor='#9A3412';rowIcon='⚠';rowBorder='#FED7AA';}
         body+='<div style="display:flex;gap:8px;align-items:flex-start;background:'+rowBg+';padding:7px 9px;border-radius:6px;margin-bottom:4px;border:1px solid '+rowBorder+';">';
         body+='<span style="flex-shrink:0;font-size:13px;margin-top:1px;">'+rowIcon+'</span>';
         body+='<div style="flex:1">';
